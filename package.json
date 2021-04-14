@@ -1,0 +1,23 @@
+{
+  "name": "Texas-Holdem-Hands",
+  "version": "1.0.0",
+  "description": "This program identifies the hands and ranks the players by hands.",
+  "main": "holdem.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhammadalics/Texas-Holdem-Hands.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muhammadalics/Texas-Holdem-Hands/issues"
+  },
+  "homepage": "https://github.com/muhammadalics/Texas-Holdem-Hands#readme",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
+}
