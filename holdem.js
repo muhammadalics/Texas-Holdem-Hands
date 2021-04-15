@@ -13,7 +13,7 @@ var countOccurrence = (arr) => {
 
 var isCountPresent = (arr, num) => {
     var count = countOccurrence(arr);
-    // console.log(count);
+    console.log(count);
     return Object.values(count).includes(num);
 }
 
@@ -21,7 +21,8 @@ var isPairPresent = (arr) => isCountPresent(arr, 2)
 
 var isThreeOfAKindPresent = (arr) => isCountPresent(arr, 3)
 
-var isFourOfAKindPresent = (arr) => isCountPresent(arr, 4)
+//Suits dont matter for four of a kind
+var isFourOfAKindPresent = (faces) => isCountPresent(faces, 4)
 
 var twoPairsPresent = (arr) => {
     var count = countOccurrence(arr);
@@ -35,6 +36,7 @@ var twoPairsPresent = (arr) => {
 }
 
 var deleteOneIfPresent = (arr) => {
+    console.log(arr)
     indexOfOne = arr.indexOf(1); //Check if Ace is present
     if (indexOfOne != -1) {
         arr.splice(indexOfOne, 1)
@@ -43,12 +45,17 @@ var deleteOneIfPresent = (arr) => {
 }
 
 var areNumbersInSequence = (arr) => {
+    console.log(arr)
     arr = deleteOneIfPresent(arr);
-    sortedArray = arr.sort();
+    sortedArray = arr.sort((a, b) => a - b);
+    console.log('sorted array')
+    console.log(sortedArray)
     subtractionArray = [];
     for (let index = 1; index < sortedArray.length; index++) {
         subtractionArray.push(sortedArray[index] - sortedArray[index - 1]) // if numbers are in sequence then this array will be all 1.       
     }
+    console.log('are numbers in sequence?')
+    console.log(checkAllEqual(subtractionArray) && subtractionArray[0] == 1)
     return checkAllEqual(subtractionArray) && subtractionArray[0] == 1;
 }
 
@@ -65,6 +72,7 @@ var convertFacesToNumeric = (faces) => {
         var index = faces.indexOf(element);
         if (index != -1) {
             faces.splice(index, 1, kvPairs[element])
+            console.log(typeof (kvPairs[element]))
         }
     })
     return faces;
@@ -73,8 +81,8 @@ var convertFacesToNumeric = (faces) => {
 var areArraysEqual = (arr1, arr2) => {
 
     if (arr1.length == arr2.length) {
-        for(index=0; index < arr1.length; index++ ){
-            if (arr1[index] != arr2[index]){
+        for (index = 0; index < arr1.length; index++) {
+            if (arr1[index] != arr2[index]) {
                 console.log(arr1[index] != arr2[index])
                 return false;
             }
@@ -82,26 +90,57 @@ var areArraysEqual = (arr1, arr2) => {
         return true;
     }
     return false;
-
 }
 
 var isRoyalFlush = (suits, faces) => {
-    console.log(checkAllEqual(suits));
-    console.log(convertFacesToNumeric(faces).sort() == [10, 11, 12, 13, 14])
-    return checkAllEqual(suits) && areArraysEqual(convertFacesToNumeric(faces).sort(), [10, 11, 12, 13, 14]); 
+    return checkAllEqual(suits) &&
+        areArraysEqual(convertFacesToNumeric(faces).sort((a, b) => a - b), [10, 11, 12, 13, 14]);
 }
 
-var isFlush = (suits) => {
-    return checkAllEqual(suits)
+// var isStraightFlush = (suits, faces) => {
+//     console.log(faces)
+//     console.log(checkAllEqual(suits))
+//     console.log(areNumbersInSequence(faces))
+//     console.log(!isRoyalFlush(suits, faces))
+//     return checkAllEqual(suits) &&
+//         areNumbersInSequence(faces) &&
+//         !isRoyalFlush(suits, faces)
+// }
+
+
+var isStraightFlush = (suits, faces) => {
+    console.log('First condition: ', checkAllEqual(suits))
+    console.log('Second condition: ', areNumbersInSequence(faces))
+    console.log('Third condition: ', !isRoyalFlush(suits, faces))
+
+    return checkAllEqual(suits) &&
+        areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)) &&
+        !isRoyalFlush(suits, faces);
+}
+
+var isFullHouse = (faces) => {
+    return isThreeOfAKindPresent(faces) &&
+        isPairPresent(faces)
+}
+
+
+
+var isFlush = (suits, faces) => {
+    return checkAllEqual(suits) &&
+        !isRoyalFlush(faces);
 }
 
 var isHandPair = (arr) => {
-    return isPairPresent(arr) && twoPairsPresent(arr) == false;
+    return isPairPresent(arr) &&
+        twoPairsPresent(arr) == false;
 }
 
 // console.log(isRoyalFlush(['D', 'D', 'D', 'D'], ['Q', 'J', 'K', 'A', 'T']));
-
 // areArraysEqual([1,1,1,1,1], [1,1,1,1,1])
+
+// console.log('Is this straight flush?')
+// console.log(isStraightFlush(['D', 'D', 'D', 'D'], ['Q', 'J', 'K', 9, 'T']))
+
 
 module.exports = {
     checkAllEqual: checkAllEqual,
@@ -114,7 +153,9 @@ module.exports = {
     areNumbersInSequence: areNumbersInSequence,
     convertFacesToNumeric: convertFacesToNumeric,
     isRoyalFlush: isRoyalFlush,
-    areArraysEqual:areArraysEqual
+    areArraysEqual: areArraysEqual,
+    isStraightFlush: isStraightFlush,
+    isFullHouse:isFullHouse
     // a1: a1
 }
 
