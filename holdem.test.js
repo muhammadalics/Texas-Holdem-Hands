@@ -84,3 +84,27 @@ test('Are numbers in sequence ?', () => {
 test('Are numbers in sequence ?', () => {
     expect(holdem.areNumbersInSequence([1, 3, 7, 4, 5])).toBe(false)
 })
+
+test('Are faces translated to numbers properly?', () => {
+    expect(holdem.convertFacesToNumeric([1, 3, 'K', 4, 5])).toStrictEqual([1, 3, 13, 4, 5])
+})
+
+test('Is Queen translated to 12?', () => {
+    expect(holdem.convertFacesToNumeric([1, 'Q', 5, 4, 5])).toStrictEqual([1, 12, 5, 4, 5])
+})
+
+test('Is Ace translated to 14?', () => {
+    expect(holdem.convertFacesToNumeric([1, 3, 'A', 4, 5])).toStrictEqual([1, 3, 14, 4, 5])
+})
+
+test('Is T translated to 10?', () => {
+    expect(holdem.convertFacesToNumeric(['T', 3, 2, 4, 5])).toStrictEqual([10, 3, 2, 4, 5])
+})
+
+test('Is joker translated to 11?', () => {
+    expect(holdem.convertFacesToNumeric([1, 3, 1, 4, 'J'])).toStrictEqual([1, 3, 1, 4, 11])
+})
+
+test('Are faces translated to numbers properly?', () => {
+    expect(holdem.convertFacesToNumeric(['Q', 'J', 'K', 'A', 'T'])).toStrictEqual([12, 11, 13, 14, 10])
+})
