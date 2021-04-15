@@ -24,6 +24,7 @@ var isThreeOfAKindPresent = (arr) => isCountPresent(arr, 3)
 //Suits dont matter for four of a kind
 var isFourOfAKindPresent = (faces) => isCountPresent(faces, 4)
 
+//exclusive check
 var twoPairsPresent = (arr) => {
     var count = countOccurrence(arr);
     var pairCount = 0;
@@ -120,8 +121,8 @@ var isFlush = (suits, faces) => {
 }
 
 //this check is for isstraight only
-var isAceByKing= (faces) => {
-    return faces.includes('A') && faces.includes('K');   
+var isAceByKing = (faces) => {
+    return faces.includes('A') && faces.includes('K');
 }
 //this check is for isstraight only
 var replaceAcebyNum = (faces, num) => {
@@ -135,33 +136,57 @@ var isStraight = (suits, faces) => {
     console.log('condition 2', !isStraightFlush(suits, faces))
     console.log('condition 3', !isRoyalFlush(suits, faces))
 
-    if (isAceByKing(faces)){              
-            faces = replaceAcebyNum(faces, 14)
-        }
-    else{
+    if (isAceByKing(faces)) {
+        faces = replaceAcebyNum(faces, 14)
+    }
+    else {
         faces = replaceAcebyNum(faces, 1)
     }
-     
+
     return areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)) &&
         !isStraightFlush(suits, faces) &&
         !isRoyalFlush(suits, faces);
 }
 
-
-
-
-console.log(isStraight(['C', 'D', 'D', 'S', 'H'], ['A', 3, 4, 2, 5]))
-
-
-
-
-
-
-
-var isHandPair = (arr) => {
-    return isPairPresent(arr) &&
-        twoPairsPresent(arr) == false;
+// exclusive check
+var isThreeOfAKind = (faces) => {
+    return isThreeOfAKindPresent(faces) && !isFullHouse(faces);
 }
+
+// exclusive check
+var isPair = (faces) => {
+    return isPairPresent(faces) &&
+        !twoPairsPresent(faces) &&
+        !isFullHouse(faces);
+}
+
+var identifiedHand =  (suits, faces) => {
+
+    var handChecker = {
+        'Pair': isPair(faces),
+        'Two Pairs': twoPairsPresent(faces),
+        'Three of a kind': isThreeOfAKind(faces),
+        'Straight': isStraight(suits, faces),
+        'Flush': isFlush(suits, faces),
+        'Full house':isFullHouse(faces),
+        'Four of a kind':isFourOfAKindPresent(faces),
+        'Straight flush':isStraightFlush(suits, faces),
+        'Royal flush': isRoyalFlush(suits, faces) 
+    }
+    
+    console.log(handChecker)
+    Object.keys(handChecker).forEach(hand =>{
+        if (handChecker[hand]){
+            return hand
+        }
+    })
+    return 'High card'
+
+}
+
+var returned = identifiedHand(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 7, 2])
+
+console.log(returned)
 
 
 
@@ -180,7 +205,10 @@ module.exports = {
     isStraightFlush: isStraightFlush,
     isFullHouse: isFullHouse,
     isFlush: isFlush,
-    isStraight: isStraight
+    isStraight: isStraight,
+    isThreeOfAKind: isThreeOfAKind,
+    isPair: isPair,
+    identifiedHand: identifiedHand
     // a1: a1
 }
 

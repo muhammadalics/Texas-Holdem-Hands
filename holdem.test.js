@@ -54,6 +54,14 @@ test('Is four of a kind present ?', () => {
 })
 
 test('Are two pairs present ?', () => {
+    expect(holdem.twoPairsPresent(['A', 'J', 'A', 6, 'J'])).toBe(true)
+})
+
+test('Are two pairs present ?', () => {
+    expect(holdem.twoPairsPresent([5, 'J', 5, 6, 'J'])).toBe(true)
+})
+
+test('Are two pairs present ?', () => {
     expect(holdem.twoPairsPresent([6, 7, 2, 6, 7])).toBe(true)
 })
 
@@ -189,31 +197,31 @@ test('Is this Straight Flush?', () => {
 
 
 test('Is this four of a kind?', () => {
-    expect(holdem.isFourOfAKindPresent(['Q', 'J', 'K', 'A', 'T'])).toBe(false) 
+    expect(holdem.isFourOfAKindPresent(['Q', 'J', 'K', 'A', 'T'])).toBe(false)
 })
 
 test('Is this four of a kind?', () => {
-    expect(holdem.isFourOfAKindPresent(['Q', 'J', 'K', 9, 'T'])).toBe(false) 
+    expect(holdem.isFourOfAKindPresent(['Q', 'J', 'K', 9, 'T'])).toBe(false)
 })
 
 test('Is this four of a kind?', () => {
-    expect(holdem.isFourOfAKindPresent([2, 2, 'K', 9, 'T'])).toBe(false) 
+    expect(holdem.isFourOfAKindPresent([2, 2, 'K', 9, 'T'])).toBe(false)
 })
 
 test('Is this four of a kind?', () => {
-    expect(holdem.isFourOfAKindPresent([2, 2, 9, 9, 'T'])).toBe(false) 
+    expect(holdem.isFourOfAKindPresent([2, 2, 9, 9, 'T'])).toBe(false)
 })
 
 test('Is this four of a kind?', () => {
-    expect(holdem.isFourOfAKindPresent([2, 2, 9, 9, 9])).toBe(false) 
+    expect(holdem.isFourOfAKindPresent([2, 2, 9, 9, 9])).toBe(false)
 })
 
 test('Is this four of a kind?', () => {
-    expect(holdem.isFourOfAKindPresent(['A', 3, 4, 2, 5])).toBe(false) 
+    expect(holdem.isFourOfAKindPresent(['A', 3, 4, 2, 5])).toBe(false)
 })
 
 test('Is this four of a kind?', () => {
-    expect(holdem.isFourOfAKindPresent(['A', 'J', 'Q', 'K', 'T'])).toBe(false) 
+    expect(holdem.isFourOfAKindPresent(['A', 'J', 'Q', 'K', 'T'])).toBe(false)
 })
 
 test('Is this four of a kind?', () => {
@@ -221,11 +229,11 @@ test('Is this four of a kind?', () => {
 })
 
 test('Is this four of a kind?', () => {
-    expect(holdem.isFourOfAKindPresent([7, 5, 2, 'A', 'Q'])).toBe(false) 
+    expect(holdem.isFourOfAKindPresent([7, 5, 2, 'A', 'Q'])).toBe(false)
 })
 
 test('Is this four of a kind?', () => {
-    expect(holdem.isFourOfAKindPresent([7, 7, 7, 2, 2])).toBe(false) 
+    expect(holdem.isFourOfAKindPresent([7, 7, 7, 2, 2])).toBe(false)
 })
 
 test('Is this four of a kind?', () => {
@@ -241,7 +249,7 @@ test('Is this full house?', () => {
 })
 
 test('Is this full house?', () => {
-    expect(holdem.isFullHouse( ['Q', 'J', 'K', 9, 'T'])).toBe(false)
+    expect(holdem.isFullHouse(['Q', 'J', 'K', 9, 'T'])).toBe(false)
 })
 
 test('Is this full house?', () => {
@@ -249,35 +257,35 @@ test('Is this full house?', () => {
 })
 
 test('Is this full house?', () => {
-    expect(holdem.isFullHouse( [2, 2, 9, 9, 'T'])).toBe(false)
+    expect(holdem.isFullHouse([2, 2, 9, 9, 'T'])).toBe(false)
 })
 
 test('Is this full house?', () => {
-    expect(holdem.isFullHouse( [2, 2, 9, 9, 9])).toBe(true) //full house
+    expect(holdem.isFullHouse([2, 2, 9, 9, 9])).toBe(true) //full house
 })
 
 test('Is this full house?', () => {
-    expect(holdem.isFullHouse( ['A', 3, 4, 2, 5])).toBe(false)
+    expect(holdem.isFullHouse(['A', 3, 4, 2, 5])).toBe(false)
 })
 
 test('Is this full house?', () => {
-    expect(holdem.isFullHouse( ['A', 'J', 'Q', 'K', 'T'])).toBe(false)
+    expect(holdem.isFullHouse(['A', 'J', 'Q', 'K', 'T'])).toBe(false)
 })
 
 test('Is this full house?', () => {
-    expect(holdem.isFullHouse( ['A', 5, 2, 'K', 'T'])).toBe(false)
+    expect(holdem.isFullHouse(['A', 5, 2, 'K', 'T'])).toBe(false)
 })
 
 test('Is this full house?', () => {
-    expect(holdem.isFullHouse( [7, 5, 2, 'A', 'Q'])).toBe(false)
+    expect(holdem.isFullHouse([7, 5, 2, 'A', 'Q'])).toBe(false)
 })
 
 test('Is this full house?', () => {
-    expect(holdem.isFullHouse( [7, 7, 7, 2, 2])).toBe(true) //full house 
+    expect(holdem.isFullHouse([7, 7, 7, 2, 2])).toBe(true) //full house 
 })
 
 test('Is this full house?', () => {
-    expect(holdem.isFullHouse([7, 7, 7, 7, 2])).toBe(false) 
+    expect(holdem.isFullHouse([7, 7, 7, 7, 2])).toBe(false)
 })
 
 test('Is this full house?', () => {
@@ -431,4 +439,190 @@ test('Is this Straight?', () => {
 
 test('Is this Straight?', () => {
     expect(holdem.isStraight(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 7, 2])).toBe(false) //four of a kind
+})
+
+
+
+
+
+
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['Q', 'J', 'K', 'A', 'T'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['Q', 'J', 'K', 'A', 'T'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['Q', 'J', 'K', 'A', 'T'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['Q', 'J', 'K', 'A', 'T'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['Q', 'J', 'K', 'A', 'T'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['Q', 'J', 'K', 9, 'T'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind([2, 2, 'K', 9, 'T'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind([2, 2, 9, 9, 'T'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind([2, 2, 9, 9, 9])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['A', 3, 4, 2, 5])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['A', 'J', 'Q', 'K', 'T'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['A', 5, 2, 'K', 'T'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind([7, 5, 2, 'A', 'Q'])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind([7, 7, 7, 2, 2])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind([7, 7, 7, 7, 2])).toBe(false)
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind([7, 7, 7, 1, 2])).toBe(true) //three of a kind
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['A', 'A', 'A', 7, 2])).toBe(true) //three of a kind
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['Q', 'Q', 'Q', 1, 2])).toBe(true) //three of a kind
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['A', 'A', 2, 2, 2])).toBe(false) //full house
+})
+
+test('Is this three of a kind?', () => {
+    expect(holdem.isThreeOfAKind(['A', 'A', 'A', 2, 2])).toBe(false) //full house
+})
+
+
+
+
+test('Is it a pair?', () => {
+    expect(holdem.isPair(['A', 'J', 'A', 6, 'J'])).toBe(false)
+})
+
+test('Is it a pair?', () => {
+    expect(holdem.isPair([5, 'J', 5, 6, 'J'])).toBe(false)
+})
+
+test('Is it a pair?', () => {
+    expect(holdem.isPair([6, 7, 2, 6, 7])).toBe(false)
+})
+
+test('Is it a pair?', () => {
+    expect(holdem.isPair([6, 7, 7, 6, 7])).toBe(false)
+})
+
+test('Is it a pair?', () => {
+    expect(holdem.isPair([7, 7, 7, 7, 7])).toBe(false)
+})
+
+test('Is it a pair?', () => {
+    expect(holdem.isPair([9, 9, 2, 2, 2])).toBe(false)
+})
+
+test('Is it a pair?', () => {
+    expect(holdem.isPair(['A', 'A', 1, 2, 2])).toBe(false)
+})
+
+test('Is it a pair?', () => {
+    expect(holdem.isPair(['A', 'A', 1, 4, 2])).toBe(true)
+})
+
+
+
+
+
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['H', 'S', 'D', 'C', 'H'], ['Q', 'J', 'K', 'A', 'T'])).toBe(true)
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['H', 'H', 'H', 'H', 'H'], ['Q', 'J', 'K', 'A', 'T'])).toBe('Royal flush') //royal flush
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['S', 'S', 'S', 'S', 'S'], ['Q', 'J', 'K', 'A', 'T'])).toBe('Royal flush') //royal flush
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['D', 'D', 'D', 'D', 'D'], ['Q', 'J', 'K', 'A', 'T'])).toBe('Royal flush') //royal flush
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['D', 'D', 'D', 'D', 'D'], ['Q', 'J', 'K', 'A', 'T'])).toBe('Royal flush') //this is royal flush
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['D', 'D', 'D', 'D', 'D'], ['Q', 'J', 'K', 9, 'T'])).toBe('Straight flush') //straight flush
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['C', 'D', 'D', 'D', 'S'], [2, 2, 'K', 9, 'T'])).toBe('Pair') //pair
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['C', 'D', 'D', 'D', 'H'], [2, 2, 9, 9, 'T'])).toBe('Two Pairs') //two pair
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['C', 'D', 'D', 'S', 'H'], [2, 2, 9, 9, 9])).toBe('Three of a kind') //three of a kind
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['C', 'D', 'D', 'S', 'H'], ['A', 3, 4, 2, 5])).toBe('Straight') //straight
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['C', 'D', 'D', 'S', 'H'], ['A', 'J', 'Q', 'K', 'T'])).toBe('Straight') //straight
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['D', 'D', 'D', 'D', 'D'], ['A', 5, 2, 'K', 'T'])).toBe('Flush') //flush
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['D', 'D', 'D', 'D', 'D'], [7, 5, 2, 'A', 'Q'])).toBe('Flush') //flush
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 2, 2])).toBe('Full house') //full house
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 7, 2])).toBe('Four of a kind') //four of a kind
 })
