@@ -97,21 +97,11 @@ var isRoyalFlush = (suits, faces) => {
         areArraysEqual(convertFacesToNumeric(faces).sort((a, b) => a - b), [10, 11, 12, 13, 14]);
 }
 
-// var isStraightFlush = (suits, faces) => {
-//     console.log(faces)
-//     console.log(checkAllEqual(suits))
-//     console.log(areNumbersInSequence(faces))
-//     console.log(!isRoyalFlush(suits, faces))
-//     return checkAllEqual(suits) &&
-//         areNumbersInSequence(faces) &&
-//         !isRoyalFlush(suits, faces)
-// }
-
 
 var isStraightFlush = (suits, faces) => {
-    console.log('First condition: ', checkAllEqual(suits))
-    console.log('Second condition: ', areNumbersInSequence(faces))
-    console.log('Third condition: ', !isRoyalFlush(suits, faces))
+    // console.log('First condition: ', checkAllEqual(suits))
+    // console.log('Second condition: ', areNumbersInSequence(faces))
+    // console.log('Third condition: ', !isRoyalFlush(suits, faces))
 
     return checkAllEqual(suits) &&
         areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)) &&
@@ -123,11 +113,10 @@ var isFullHouse = (faces) => {
         isPairPresent(faces)
 }
 
-
-
 var isFlush = (suits, faces) => {
     return checkAllEqual(suits) &&
-        !isRoyalFlush(faces);
+        !isRoyalFlush(suits, faces) &&
+        !isStraightFlush(suits, faces);
 }
 
 var isHandPair = (arr) => {
@@ -135,11 +124,6 @@ var isHandPair = (arr) => {
         twoPairsPresent(arr) == false;
 }
 
-// console.log(isRoyalFlush(['D', 'D', 'D', 'D'], ['Q', 'J', 'K', 'A', 'T']));
-// areArraysEqual([1,1,1,1,1], [1,1,1,1,1])
-
-// console.log('Is this straight flush?')
-// console.log(isStraightFlush(['D', 'D', 'D', 'D'], ['Q', 'J', 'K', 9, 'T']))
 
 
 module.exports = {
@@ -155,7 +139,8 @@ module.exports = {
     isRoyalFlush: isRoyalFlush,
     areArraysEqual: areArraysEqual,
     isStraightFlush: isStraightFlush,
-    isFullHouse:isFullHouse
+    isFullHouse:isFullHouse,
+    isFlush: isFlush
     // a1: a1
 }
 

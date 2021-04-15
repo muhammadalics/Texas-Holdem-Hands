@@ -304,3 +304,64 @@ test('Is this full house?', () => {
     expect(holdem.isFullHouse([8, 8, 8, 'A', 'A'])).toBe(true) //full house
 })
 
+
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['H', 'S', 'D', 'C', 'H'], ['Q', 'J', 'K', 'A', 'T'])).toBe(false)
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['H', 'H', 'H', 'H', 'H'], ['Q', 'J', 'K', 'A', 'T'])).toBe(false) //royal flush
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['S', 'S', 'S', 'S', 'S'], ['Q', 'J', 'K', 'A', 'T'])).toBe(false) //royal flush
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['D', 'D', 'D', 'D', 'D'], ['Q', 'J', 'K', 'A', 'T'])).toBe(false) //royal flush
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['D', 'D', 'D', 'D', 'D'], ['Q', 'J', 'K', 'A', 'T'])).toBe(false) //this is royal flush
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['D', 'D', 'D', 'D', 'D'], ['Q', 'J', 'K', 9, 'T'])).toBe(false) //straight flush
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['C', 'D', 'D', 'D', 'S'], [2, 2, 'K', 9, 'T'])).toBe(false) //pair
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['C', 'D', 'D', 'D', 'H'], [2, 2, 9, 9, 'T'])).toBe(false) //two pair
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['C', 'D', 'D', 'S', 'H'], [2, 2, 9, 9, 9])).toBe(false) //three of a kind
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['C', 'D', 'D', 'S', 'H'], ['A', 3, 4, 2, 5])).toBe(false) //straight
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['C', 'D', 'D', 'S', 'H'], ['A', 'J', 'Q', 'K', 'T'])).toBe(false) //straight
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['D', 'D', 'D', 'D', 'D'], ['A', 5, 2, 'K', 'T'])).toBe(true) //flush
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['D', 'D', 'D', 'D', 'D'], [7, 5, 2, 'A', 'Q'])).toBe(true) //flush
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 2, 2])).toBe(false) //full house
+})
+
+test('Is this Flush?', () => {
+    expect(holdem.isFlush(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 7, 2])).toBe(false) //four of a kind
+})
