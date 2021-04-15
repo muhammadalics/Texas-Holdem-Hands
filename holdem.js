@@ -13,7 +13,7 @@ var countOccurrence = (arr) => {
 
 var isCountPresent = (arr, num) => {
     var count = countOccurrence(arr);
-    console.log(count);
+    // console.log(count);
     return Object.values(count).includes(num);
 }
 
@@ -36,7 +36,7 @@ var twoPairsPresent = (arr) => {
 }
 
 var deleteOneIfPresent = (arr) => {
-    console.log(arr)
+    // console.log(arr)
     indexOfOne = arr.indexOf(1); //Check if Ace is present
     if (indexOfOne != -1) {
         arr.splice(indexOfOne, 1)
@@ -45,7 +45,7 @@ var deleteOneIfPresent = (arr) => {
 }
 
 var areNumbersInSequence = (arr) => {
-    console.log(arr)
+    // console.log(arr)
     arr = deleteOneIfPresent(arr);
     sortedArray = arr.sort((a, b) => a - b);
     console.log('sorted array')
@@ -54,8 +54,8 @@ var areNumbersInSequence = (arr) => {
     for (let index = 1; index < sortedArray.length; index++) {
         subtractionArray.push(sortedArray[index] - sortedArray[index - 1]) // if numbers are in sequence then this array will be all 1.       
     }
-    console.log('are numbers in sequence?')
-    console.log(checkAllEqual(subtractionArray) && subtractionArray[0] == 1)
+    // console.log('are numbers in sequence?')
+    // console.log(checkAllEqual(subtractionArray) && subtractionArray[0] == 1)
     return checkAllEqual(subtractionArray) && subtractionArray[0] == 1;
 }
 
@@ -119,6 +119,45 @@ var isFlush = (suits, faces) => {
         !isStraightFlush(suits, faces);
 }
 
+//this check is for isstraight only
+var isAceByKing= (faces) => {
+    return faces.includes('A') && faces.includes('K');   
+}
+//this check is for isstraight only
+var replaceAcebyNum = (faces, num) => {
+    var indexOfAce = faces.indexOf('A');
+    faces.splice(indexOfAce, num);
+    return faces;
+}
+
+var isStraight = (suits, faces) => {
+    console.log('condition 1', areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)))
+    console.log('condition 2', !isStraightFlush(suits, faces))
+    console.log('condition 3', !isRoyalFlush(suits, faces))
+
+    if (isAceByKing(faces)){              
+            faces = replaceAcebyNum(faces, 14)
+        }
+    else{
+        faces = replaceAcebyNum(faces, 1)
+    }
+     
+    return areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)) &&
+        !isStraightFlush(suits, faces) &&
+        !isRoyalFlush(suits, faces);
+}
+
+
+
+
+console.log(isStraight(['C', 'D', 'D', 'S', 'H'], ['A', 3, 4, 2, 5]))
+
+
+
+
+
+
+
 var isHandPair = (arr) => {
     return isPairPresent(arr) &&
         twoPairsPresent(arr) == false;
@@ -139,8 +178,9 @@ module.exports = {
     isRoyalFlush: isRoyalFlush,
     areArraysEqual: areArraysEqual,
     isStraightFlush: isStraightFlush,
-    isFullHouse:isFullHouse,
-    isFlush: isFlush
+    isFullHouse: isFullHouse,
+    isFlush: isFlush,
+    isStraight: isStraight
     // a1: a1
 }
 
