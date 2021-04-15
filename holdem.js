@@ -1,4 +1,5 @@
 const { arrayExpression } = require("@babel/types");
+// const { Console } = require("node:console");
 
 var checkAllEqual = (arr) => arr.every(card => card == arr[0])
 
@@ -12,7 +13,7 @@ var countOccurrence = (arr) => {
 
 var isCountPresent = (arr, num) => {
     var count = countOccurrence(arr);
-    console.log(count);
+    // console.log(count);
     return Object.values(count).includes(num);
 }
 
@@ -66,12 +67,28 @@ var convertFacesToNumeric = (faces) => {
             faces.splice(index, 1, kvPairs[element])
         }
     })
-
     return faces;
 }
 
+var areArraysEqual = (arr1, arr2) => {
+
+    if (arr1.length == arr2.length) {
+        for(index=0; index < arr1.length; index++ ){
+            if (arr1[index] != arr2[index]){
+                console.log(arr1[index] != arr2[index])
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+
+}
+
 var isRoyalFlush = (suits, faces) => {
-    return checkAllEqual(suits) && convertFacesToNumeric(faces).sort() == [10, 11, 12, 13, 14]; 
+    console.log(checkAllEqual(suits));
+    console.log(convertFacesToNumeric(faces).sort() == [10, 11, 12, 13, 14])
+    return checkAllEqual(suits) && areArraysEqual(convertFacesToNumeric(faces).sort(), [10, 11, 12, 13, 14]); 
 }
 
 var isFlush = (suits) => {
@@ -82,7 +99,9 @@ var isHandPair = (arr) => {
     return isPairPresent(arr) && twoPairsPresent(arr) == false;
 }
 
+// console.log(isRoyalFlush(['D', 'D', 'D', 'D'], ['Q', 'J', 'K', 'A', 'T']));
 
+// areArraysEqual([1,1,1,1,1], [1,1,1,1,1])
 
 module.exports = {
     checkAllEqual: checkAllEqual,
@@ -93,7 +112,9 @@ module.exports = {
     isFourOfAKindPresent: isFourOfAKindPresent,
     twoPairsPresent: twoPairsPresent,
     areNumbersInSequence: areNumbersInSequence,
-    convertFacesToNumeric: convertFacesToNumeric
+    convertFacesToNumeric: convertFacesToNumeric,
+    isRoyalFlush: isRoyalFlush,
+    areArraysEqual:areArraysEqual
     // a1: a1
 }
 

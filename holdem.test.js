@@ -108,3 +108,35 @@ test('Is joker translated to 11?', () => {
 test('Are faces translated to numbers properly?', () => {
     expect(holdem.convertFacesToNumeric(['Q', 'J', 'K', 'A', 'T'])).toStrictEqual([12, 11, 13, 14, 10])
 })
+
+test('Are Arrays Equal?', () => {
+    expect(holdem.areArraysEqual([1, 1, 1, 1, 1], [1, 1, 1, 1, 1])).toBe(true)
+})
+
+test('Are Arrays Equal?', () => {
+    expect(holdem.areArraysEqual([8, 8, 8, 8, 8], [8, 8, 8, 8, 8])).toBe(true)
+})
+
+test('Are Arrays Equal?', () => {
+    expect(holdem.areArraysEqual([1, 3, 1, 5, 1], [1, 1, 1, 1, 1])).toBe(false)
+})
+
+test('Are Arrays Equal?', () => {
+    expect(holdem.areArraysEqual([5, 5, 5, 5, 5], [1, 1, 1, 1, 1])).toBe(false)
+})
+
+test('Is this Royal Flush?', () => {
+    expect(holdem.isRoyalFlush(['H', 'S', 'D', 'C'], ['Q', 'J', 'K', 'A', 'T'])).toBe(false)
+})
+
+test('Is this Royal Flush?', () => {
+    expect(holdem.isRoyalFlush(['H', 'H', 'H', 'H'], ['Q', 'J', 'K', 'A', 'T'])).toBe(true)
+})
+
+test('Is this Royal Flush?', () => {
+    expect(holdem.isRoyalFlush(['S', 'S', 'S', 'S'], ['Q', 'J', 'K', 'A', 'T'])).toBe(true)
+})
+
+test('Is this Royal Flush?', () => {
+    expect(holdem.isRoyalFlush(['D', 'D', 'D', 'D'], ['Q', 'J', 'K', 'A', 'T'])).toBe(true)
+})
