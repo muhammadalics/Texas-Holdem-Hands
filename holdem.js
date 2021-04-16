@@ -211,6 +211,19 @@ var isPair = (faces) => {
 
 var identifiedHand = (suits, faces) => {
 
+    const handValue = {
+        'High card': 1,
+        'Pair': 2,
+        'Two Pairs': 3,
+        'Three of a kind': 4,
+        'Straight': 5,
+        'Flush': 6,
+        'Full house': 7,
+        'Four of a kind': 8,
+        'Straight flush': 9,
+        'Royal flush': 10
+    }
+
     var handChecker = {
         'Pair': isPair(faces),
         'Two Pairs': twoPairsPresent(faces),
@@ -234,10 +247,10 @@ var identifiedHand = (suits, faces) => {
     })
 
     if (trueHand != '') {
-        return trueHand;
+        return [trueHand, handValue[trueHand]];
     }
     else {
-        return 'High card';
+        return ['High card', handValue['High card']];
     }
 }
 
@@ -334,17 +347,19 @@ var comboMaker = () => {
 }
 
 
-handMaker();
+comboMaker();
 
 
 
-var getHand = (faceCombos, suitCombos) => {
+// var getHand = (suitCombos, faceCombos) => {
 
-    for(let index=0; index < faceCombos.length; index++) {
-        
-    }
+//     var handNumber = 11;
+//     for(let index=0; index < faceCombos.length; index++) {
+//         if (identifiedHand)
 
-}
+//     }
+
+// }
 
 
 
