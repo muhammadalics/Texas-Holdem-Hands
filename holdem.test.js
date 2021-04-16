@@ -669,3 +669,30 @@ test("Given community and a player's cards,  what hand is it?", () => {
         ['C', 'S', 'H', 'S', 'S']
     )).toBe(5) //Straight
 })
+
+test("Given community and a player's cards,  what hand is it?", () => {
+    expect(holdem.getHand(
+        [9, 7],
+        ['H', 'S'],
+        ['K', 'A', 3, 7, 'T'],
+        ['S', 'D', 'H', 'C', 'D']
+    )).toBe(2) //Pair
+})
+
+test("Given community and a player's cards,  what hand is it?", () => {
+    expect(holdem.getHand(
+        ['A', 'K'],
+        ['C', 'H'],
+        ['K', 'A', 3, 7, 'T'],
+        ['S', 'D', 'H', 'C', 'D']
+    )).toBe(3) // Two Pair
+})
+
+test("Given community and a player's cards,  what hand is it?", () => {
+    expect(holdem.getHand(
+        ['J', 'Q'],
+        ['D', 'C'],
+        ['K', 'A', 3, 7, 'T'],
+        ['S', 'D', 'H', 'C', 'D']
+    )).toBe(5) // Straight
+})
