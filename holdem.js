@@ -1,10 +1,10 @@
-const { arrayExpression } = require("@babel/types");
+const { arrayExpression, isFlowBaseAnnotation } = require("@babel/types");
 // const { Console } = require("node:console");
 
 var checkAllEqual = (arr) => arr.every(card => card == arr[0])
 
 var countOccurrence = (arr) => {
-    var count = {};
+    let count = {};
     arr.forEach(element => {
         count[element] = (count[element] + 1) || 1;
     });
@@ -12,7 +12,7 @@ var countOccurrence = (arr) => {
 }
 
 var isCountPresent = (arr, num) => {
-    var count = countOccurrence(arr);
+    let count = countOccurrence(arr);
     // console.log(count);
     return Object.values(count).includes(num);
 }
@@ -26,8 +26,8 @@ var isFourOfAKindPresent = (faces) => isCountPresent(faces, 4)
 
 //exclusive check
 var twoPairsPresent = (arr) => {
-    var count = countOccurrence(arr);
-    var pairCount = 0;
+    let count = countOccurrence(arr);
+    let pairCount = 0;
     Object.values(count).forEach(number => {
         if (number == 2) {
             pairCount++;
@@ -72,7 +72,7 @@ var convertFacesToNumeric = (faces) => {
     }
 
     Object.keys(kvPairs).forEach(element => {
-        var index = faces.indexOf(element);
+        let index = faces.indexOf(element);
         if (index != -1) {
             faces.splice(index, 1, kvPairs[element])
             // console.log(typeof (kvPairs[element]))
@@ -130,7 +130,7 @@ var isAceByKing = (faces) => {
 }
 //this check is for isstraight only
 var replaceAceByNum = (faces, num) => {
-    var indexOfAce = faces.indexOf('A');
+    let indexOfAce = faces.indexOf('A');
     // console.log(indexOfAce);
     faces.splice(indexOfAce, 1, num);
     // console.log('replace ace by num: ', faces)
@@ -175,9 +175,9 @@ var isStraight = (suits, faces) => {
     // console.log('freshly copied faces: ', copiedFaces)
     // console.log('freshly copied suits: ', copiedSuits)
 
-    if (copiedFaces.includes('A')){
+    if (copiedFaces.includes('A')) {
         if (isAceByKing(copiedFaces)) {
-            console.log('inside if ', copiedFaces);
+            // console.log('inside if ', copiedFaces);
             replaceAceByNum(copiedFaces, 14)
         }
         else {
@@ -226,7 +226,7 @@ var identifiedHand = (suits, faces) => {
         'Royal flush': 10
     }
 
-    var handChecker = {
+    let handChecker = {
         'Pair': isPair(faces),
         'Two Pairs': twoPairsPresent(faces),
         'Three of a kind': isThreeOfAKind(faces),
@@ -238,7 +238,8 @@ var identifiedHand = (suits, faces) => {
         'Royal flush': isRoyalFlush(suits, faces)
     }
 
-    var keys = Object.keys(handChecker)
+    // console.log(handChecker);
+    let keys = Object.keys(handChecker)
 
     let trueHand = ''
     Object.keys(handChecker).forEach(hand => {
@@ -305,8 +306,8 @@ var comboMaker = (playerFaces, playerSuits, communityFaces, communitySuits) => {
     //     }
     // }
 
-    var faceCombos = []
-    var suitCombos = []
+    let faceCombos = []
+    let suitCombos = []
     // var clonedPlayerFaces = [...playerFaces];
     // var clonedcommunityFaces = [...communityFaces];
 
@@ -369,7 +370,7 @@ var comboMaker = (playerFaces, playerSuits, communityFaces, communitySuits) => {
 
 var getHand = (playerFaces, playerSuits, communityFaces, communitySuits) => {
 
-    var suitCombos, faceCombos;
+    let suitCombos, faceCombos;
     [suitCombos, faceCombos] = comboMaker(playerFaces, playerSuits, communityFaces, communitySuits);
 
     var handValue = 0;
@@ -384,7 +385,7 @@ var getHand = (playerFaces, playerSuits, communityFaces, communitySuits) => {
 }
 
 
-console.log(isStraight(['S', 'S', 'D', 'D', 'H'], [8, 7, 6, 5, 4]))
+// console.log(isStraight(['S', 'S', 'D', 'D', 'H'], [8, 7, 6, 5, 4]))
 
 // console.log(
 //     getHand(['A', 4],
@@ -393,6 +394,198 @@ console.log(isStraight(['S', 'S', 'D', 'D', 'H'], [8, 7, 6, 5, 4]))
 //         ['C', 'S', 'H', 'S', 'S']
 //     )
 // )
+
+
+
+
+
+// const readline = require('readline').createInterface({
+//     input: process.stdin,
+//     output: process.stdout
+//   });
+
+//   readline.question('Who are you?', name => {
+//     console.log(`Hey there ${name}!`);
+//     readline.close();
+//   });
+
+
+let readline = require('readline');
+var readUserInput = () => {
+    
+
+    let input = [];
+
+    let rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    rl.prompt();
+
+    return new Promise((resolve, reject) => {
+
+        rl.on('line', function (cmd) {
+
+            input.push(cmd);
+        });
+
+        rl.on('close', function (cmd) {
+
+            resolve(input)
+            // console.log(input)
+            // console.log(input.join('\n'));
+            // process.exit(0);
+        });
+
+
+    })
+};
+
+
+
+
+
+
+
+
+
+// const readline = require('readline');
+
+// const rl = readline.createInterface({
+//     input: process.stdin,
+//     output: process.stdout
+// });
+
+//  var question = function(q){
+
+//     var response;
+
+//     rl.setPrompt(q);
+//     rl.prompt();
+
+//     return new Promise(( resolve , reject) => {
+
+//         rl.on('line', (userInput) => {
+//             response = userInput;
+//             rl.close();
+//         });
+
+//         rl.on('close', () => {
+//             resolve(response);
+//         });
+
+//     });
+
+
+// };
+
+
+
+var returnNum = (val) =>{
+    if (!isNaN(val)){
+        return parseInt(val);
+    }
+    else{
+        return val;
+    } 
+}
+
+
+var splitSuitAndFace = (arr) => {
+    let suits = [];
+    let faces = [];
+
+    arr.forEach(element => {
+        // faces.push(element.charAt(0))
+        faces.push(returnNum(element.charAt(0)))
+        suits.push(element.charAt(1))
+    })
+
+    return [suits, faces];
+}
+
+
+
+var parseInput = (userInput) => {
+
+    // let userInput = await readUserInput();
+
+
+    // let communityFaces = [];
+    // let communitySuits = [];
+    let extracteddata = userInput[0].split(" ")
+    let communityFaces = splitSuitAndFace(extracteddata)[0];
+    let communitySuits = splitSuitAndFace(extracteddata)[1];
+    
+    let playerSuitsAndFaces = {}
+    
+
+    for (let index = 1; index < userInput.length; index++) {
+            let extracteddata = userInput[index].split(" ")
+            playerSuitsAndFaces[extracteddata[0]] = [splitSuitAndFace(extracteddata.slice(1))[0], splitSuitAndFace(extracteddata.slice(1))[1]]
+    }
+
+    
+    console.log('Parsing data now')
+    console.log(communityFaces);
+    console.log(communitySuits);
+    console.log(playerSuitsAndFaces);
+
+    return [communitySuits, communityFaces, playerSuitsAndFaces]
+
+}
+
+
+
+
+// ; ( async () => {
+//     // console.log(await question("how old are you? "));
+//     response = await question("how old are you? ");
+//     parseInput(response);
+    
+
+// })();
+
+
+; ( async () => {
+    response = await readUserInput();
+    
+    var communityFaces;
+    var communitySuits;
+    var playerSuitsAndFaces;
+    [communitySuits, communityFaces, playerSuitsAndFaces] = parseInput(response);
+
+    var playerHandName = {}
+    console.log('hello')
+    console.log(playerSuitsAndFaces)
+
+    console.log(Object.keys(playerSuitsAndFaces));
+
+    Object.keys(playerSuitsAndFaces).map(name => {
+        // console.log('inside map function')
+        // console.log(name);
+        // console.log(playerHandName);
+        // console.log(playerSuitsAndFaces[1]);
+        // console.log(playerSuitsAndFaces[0]);
+        // console.log(communityFaces);
+        // console.log(communitySuits);
+
+        playerHandName[name] = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
+
+        console.log(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
+
+
+    });
+
+    console.log(playerHandName);
+    
+})();
+
+
+
+
+
 
 
 module.exports = {
