@@ -175,12 +175,14 @@ var isStraight = (suits, faces) => {
     // console.log('freshly copied faces: ', copiedFaces)
     // console.log('freshly copied suits: ', copiedSuits)
 
-    if (isAceByKing(copiedFaces)) {
-        console.log('inside if ', copiedFaces);
-        replaceAceByNum(copiedFaces, 14)
-    }
-    else {
-        replaceAceByNum(copiedFaces, 1)
+    if (copiedFaces.includes('A')){
+        if (isAceByKing(copiedFaces)) {
+            console.log('inside if ', copiedFaces);
+            replaceAceByNum(copiedFaces, 14)
+        }
+        else {
+            replaceAceByNum(copiedFaces, 1)
+        }
     }
 
     // console.log('copied faces', copiedFaces)
@@ -241,7 +243,7 @@ var identifiedHand = (suits, faces) => {
     let trueHand = ''
     Object.keys(handChecker).forEach(hand => {
         if (handChecker[hand] == true) {
-            console.log(hand);
+            // console.log(hand);
             trueHand = hand
         }
     })
@@ -264,11 +266,11 @@ var identifiedHand = (suits, faces) => {
 
 // console.log(isStraight(['C', 'D', 'D', 'S', 'H'], ['A', 'J', 'Q', 'K', 'T'])) //424
 
-var comboMaker = () => {
-    var playerFaces = [4, 9]
-    var playerSuits = ['C', 'D']
-    var communityFaces = [2, 5, 'T', 'J', 'K']
-    var communitySuits = ['H', 'S', 'C', 'D', 'S']
+var comboMaker = (playerFaces, playerSuits, communityFaces, communitySuits) => {
+    // var playerFaces = [4, 9]
+    // var playerSuits = ['C', 'D']
+    // var communityFaces = [2, 5, 'T', 'J', 'K']
+    // var communitySuits = ['H', 'S', 'C', 'D', 'S']
 
     // for (let p = 0; p < playerFaces.length; p++) {
     //     for (let c = 0; c < communityFaces.length; c++) {
@@ -303,66 +305,94 @@ var comboMaker = () => {
     //     }
     // }
 
-    var possiblecombinations = []
+    var faceCombos = []
+    var suitCombos = []
     // var clonedPlayerFaces = [...playerFaces];
     // var clonedcommunityFaces = [...communityFaces];
 
-    for (let c = 0; c < communityFaces.length; c++) {       
+    for (let c = 0; c < communityFaces.length; c++) {
         for (let t = 0; t < communityFaces.length; t++) {
             let clonedPlayerFaces = [...playerFaces];
             let clonedcommunityFaces = [...communityFaces];
-            
-            
             clonedcommunityFaces.splice(c, 1, playerFaces[0])
+            let clonedcommunitySuits = [...communitySuits];
+            clonedcommunitySuits.splice(c, 1, playerSuits[0])
 
             if (t != c) {
                 clonedcommunityFaces.splice(t, 1, playerFaces[1])
-                possiblecombinations.push(clonedcommunityFaces)
+                faceCombos.push(clonedcommunityFaces)
+                clonedcommunitySuits.splice(t, 1, playerSuits[1])
+                suitCombos.push(clonedcommunitySuits)
             }
         }
     }
 
-    for (let c = 0; c < communityFaces.length; c++) {       
+    for (let c = 0; c < communityFaces.length; c++) {
         let clonedPlayerFaces = [...playerFaces];
-        let clonedcommunityFaces = [...communityFaces];  
+        let clonedcommunityFaces = [...communityFaces];
         clonedcommunityFaces.splice(c, 1, playerFaces[0])
-        possiblecombinations.push(clonedcommunityFaces)
+        faceCombos.push(clonedcommunityFaces)
+
+        let clonedcommunitySuits = [...communitySuits];
+        clonedcommunitySuits.splice(c, 1, playerSuits[0])
+        suitCombos.push(clonedcommunitySuits)
+
+
     }
 
-    for (let c = 0; c < communityFaces.length; c++) {       
+    for (let c = 0; c < communityFaces.length; c++) {
         let clonedPlayerFaces = [...playerFaces];
-        let clonedcommunityFaces = [...communityFaces];  
+        let clonedcommunityFaces = [...communityFaces];
         clonedcommunityFaces.splice(c, 1, playerFaces[1])
-        possiblecombinations.push(clonedcommunityFaces)
+        faceCombos.push(clonedcommunityFaces)
+
+        let clonedcommunitySuits = [...communitySuits];
+        clonedcommunitySuits.splice(c, 1, playerSuits[1])
+        suitCombos.push(clonedcommunitySuits)
+
     }
 
 
 
 
-    console.log(possiblecombinations)
+    // console.log(faceCombos)
+    // console.log(suitCombos)
 
 
-
+    return [suitCombos, faceCombos]
 
 }
 
 
-comboMaker();
 
 
 
-// var getHand = (suitCombos, faceCombos) => {
+var getHand = (playerFaces, playerSuits, communityFaces, communitySuits) => {
 
-//     var handNumber = 11;
-//     for(let index=0; index < faceCombos.length; index++) {
-//         if (identifiedHand)
+    var suitCombos, faceCombos;
+    [suitCombos, faceCombos] = comboMaker(playerFaces, playerSuits, communityFaces, communitySuits);
 
-//     }
+    var handValue = 0;
+    for (let index = 0; index < faceCombos.length; index++) {
+        if (identifiedHand(suitCombos[index], faceCombos[index])[1] > handValue) {
 
-// }
+            handValue = identifiedHand(suitCombos[index], faceCombos[index])[1]
+        }
+
+    }
+    return handValue
+}
 
 
+console.log(isStraight(['S', 'S', 'D', 'D', 'H'], [8, 7, 6, 5, 4]))
 
+// console.log(
+//     getHand(['A', 4],
+//         ['S', 'D'],
+//         [4, 'K', 4, 8, 7],
+//         ['C', 'S', 'H', 'S', 'S']
+//     )
+// )
 
 
 module.exports = {
@@ -383,7 +413,8 @@ module.exports = {
     isStraight: isStraight,
     isThreeOfAKind: isThreeOfAKind,
     isPair: isPair,
-    identifiedHand: identifiedHand
+    identifiedHand: identifiedHand,
+    getHand: getHand
     // a1: a1
 }
 

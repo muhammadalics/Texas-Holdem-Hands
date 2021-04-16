@@ -441,6 +441,9 @@ test('Is this Straight?', () => {
     expect(holdem.isStraight(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 7, 2])).toBe(false) //four of a kind
 })
 
+test('Is this Straight?', () => {
+    expect(holdem.isStraight(['S', 'S', 'D', 'D', 'H'], [8, 7, 6, 5, 4])).toBe(true) //four of a kind
+})
 
 
 
@@ -629,4 +632,40 @@ test('What hand is it?', () => {
 
 test('What hand is it?', () => {
     expect(holdem.identifiedHand(['C', 'H', 'D', 'C', 'S'], [10, 4, 7, 'K', 2])[0]).toBe('High card') //four of a kind
+})
+
+test("Given community and a player's cards,  what hand is it?", () => {
+    expect(holdem.getHand(
+        ['C', 4],
+        ['S', 'D'],
+        [4, 'K', 4, 8, 7],
+        ['C', 'S', 'H', 'S', 'S']
+    )).toBe(4) //Three of a kind
+})
+
+test("Given community and a player's cards,  what hand is it?", () => {
+    expect(holdem.getHand(
+        ['A', 9],
+        ['S', 'S'],
+        [4, 'K', 4, 8, 7],
+        ['C', 'S', 'H', 'S', 'S']
+    )).toBe(6) //Flush
+})
+
+test("Given community and a player's cards,  what hand is it?", () => {
+    expect(holdem.getHand(
+        ['K', 'K'],
+        ['H', 'D'],
+        [4, 'K', 4, 8, 7],
+        ['C', 'S', 'H', 'S', 'S']
+    )).toBe(7) //Full house
+})
+
+test("Given community and a player's cards,  what hand is it?", () => {
+    expect(holdem.getHand(
+        [5, 6],
+        ['D', 'D'],
+        [4, 'K', 4, 8, 7],
+        ['C', 'S', 'H', 'S', 'S']
+    )).toBe(5) //Straight
 })
