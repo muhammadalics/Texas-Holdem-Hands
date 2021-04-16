@@ -568,7 +568,7 @@ test('Is it a pair?', () => {
 
 
 test('What hand is it?', () => {
-    expect(holdem.identifiedHand(['H', 'S', 'D', 'C', 'H'], ['Q', 'J', 'K', 'A', 'T'])).toBe(true)
+    expect(holdem.identifiedHand(['H', 'S', 'D', 'C', 'H'], ['Q', 'J', 'K', 'A', 'T'])).toBe('Straight')
 })
 
 test('What hand is it?', () => {
@@ -600,7 +600,7 @@ test('What hand is it?', () => {
 })
 
 test('What hand is it?', () => {
-    expect(holdem.identifiedHand(['C', 'D', 'D', 'S', 'H'], [2, 2, 9, 9, 9])).toBe('Three of a kind') //three of a kind
+    expect(holdem.identifiedHand(['C', 'D', 'D', 'S', 'H'], [2, 2, 9, 9, 9])).toBe('Full house') //three of a kind
 })
 
 test('What hand is it?', () => {
@@ -625,4 +625,8 @@ test('What hand is it?', () => {
 
 test('What hand is it?', () => {
     expect(holdem.identifiedHand(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 7, 2])).toBe('Four of a kind') //four of a kind
+})
+
+test('What hand is it?', () => {
+    expect(holdem.identifiedHand(['C', 'H', 'D', 'C', 'S'], [10, 4, 7, 'K', 2])).toBe('High card') //four of a kind
 })

@@ -36,21 +36,23 @@ var twoPairsPresent = (arr) => {
     return pairCount == 2;
 }
 
-var deleteOneIfPresent = (arr) => {
-    // console.log(arr)
-    indexOfOne = arr.indexOf(1); //Check if Ace is present
-    if (indexOfOne != -1) {
-        arr.splice(indexOfOne, 1)
-    }
-    return arr;
-}
+// var deleteOneIfPresent = (arr) => {
+//     // console.log(arr)
+//     indexOfOne = arr.indexOf(1); //Check if Ace is present
+//     // console.log('Index of One: ', indexOfOne)
+//     if (indexOfOne != -1) {
+//         arr.splice(indexOfOne, 1)
+//     }
+//     return arr;
+// }
 
 var areNumbersInSequence = (arr) => {
     // console.log(arr)
-    arr = deleteOneIfPresent(arr);
+    // arr = deleteOneIfPresent(arr);
+    // console.log('Before sorting:', arr);
     sortedArray = arr.sort((a, b) => a - b);
-    console.log('sorted array')
-    console.log(sortedArray)
+    // console.log('sorted array')
+    // console.log(sortedArray)
     subtractionArray = [];
     for (let index = 1; index < sortedArray.length; index++) {
         subtractionArray.push(sortedArray[index] - sortedArray[index - 1]) // if numbers are in sequence then this array will be all 1.       
@@ -73,9 +75,11 @@ var convertFacesToNumeric = (faces) => {
         var index = faces.indexOf(element);
         if (index != -1) {
             faces.splice(index, 1, kvPairs[element])
-            console.log(typeof (kvPairs[element]))
+            // console.log(typeof (kvPairs[element]))
         }
+
     })
+    // console.log('convert faces to numerics', faces)
     return faces;
 }
 
@@ -125,28 +129,73 @@ var isAceByKing = (faces) => {
     return faces.includes('A') && faces.includes('K');
 }
 //this check is for isstraight only
-var replaceAcebyNum = (faces, num) => {
+var replaceAceByNum = (faces, num) => {
     var indexOfAce = faces.indexOf('A');
-    faces.splice(indexOfAce, num);
+    // console.log(indexOfAce);
+    faces.splice(indexOfAce, 1, num);
+    // console.log('replace ace by num: ', faces)
     return faces;
 }
 
-var isStraight = (suits, faces) => {
-    console.log('condition 1', areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)))
-    console.log('condition 2', !isStraightFlush(suits, faces))
-    console.log('condition 3', !isRoyalFlush(suits, faces))
+// var isStraight = (suits, faces) => {
+//     console.log('condition 1', areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)))
+//     console.log('condition 2', !isStraightFlush(suits, faces))
+//     console.log('condition 3', !isRoyalFlush(suits, faces))
 
-    if (isAceByKing(faces)) {
-        faces = replaceAcebyNum(faces, 14)
+//     if (isAceByKing(faces)) {
+//         faces = replaceAcebyNum(faces, 14)
+//     }
+//     else {
+//         faces = replaceAcebyNum(faces, 1)
+//     }
+
+//     return areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)) &&
+//         !isStraightFlush(suits, faces) &&
+//         !isRoyalFlush(suits, faces);
+// }
+
+// var isStraight = (suits, faces) => {
+//     if (isAceByKing(faces)) {
+//         faces = replaceAceByNum(faces, 14)
+//     }
+//     else {
+//         faces = replaceAceByNum(faces, 1)
+//     }
+
+//     return areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)) &&
+//         !isStraightFlush(suits, faces) &&
+//         !isRoyalFlush(suits, faces);
+// }
+
+
+var isStraight = (suits, faces) => {
+    let copiedSuits = [...suits];
+    let copiedFaces = [...faces];
+
+    // console.log('freshly copied faces: ', copiedFaces)
+    // console.log('freshly copied suits: ', copiedSuits)
+
+    if (isAceByKing(copiedFaces)) {
+        console.log('inside if ', copiedFaces);
+        replaceAceByNum(copiedFaces, 14)
     }
     else {
-        faces = replaceAcebyNum(faces, 1)
+        replaceAceByNum(copiedFaces, 1)
     }
 
-    return areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)) &&
-        !isStraightFlush(suits, faces) &&
-        !isRoyalFlush(suits, faces);
+    // console.log('copied faces', copiedFaces)
+    // console.log('condition 1', areNumbersInSequence(convertFacesToNumeric(copiedFaces).sort((a, b) => a - b)))
+    // console.log('condition 2', !isStraightFlush(copiedSuits, copiedFaces))
+    // console.log('condition 3', !isRoyalFlush(copiedSuits, copiedFaces))
+
+    return areNumbersInSequence(convertFacesToNumeric(copiedFaces).sort((a, b) => a - b)) &&
+        !isStraightFlush(copiedSuits, copiedFaces) &&
+        !isRoyalFlush(copiedSuits, copiedFaces);
 }
+
+
+
+
 
 // exclusive check
 var isThreeOfAKind = (faces) => {
@@ -160,7 +209,7 @@ var isPair = (faces) => {
         !isFullHouse(faces);
 }
 
-var identifiedHand =  (suits, faces) => {
+var identifiedHand = (suits, faces) => {
 
     var handChecker = {
         'Pair': isPair(faces),
@@ -168,25 +217,136 @@ var identifiedHand =  (suits, faces) => {
         'Three of a kind': isThreeOfAKind(faces),
         'Straight': isStraight(suits, faces),
         'Flush': isFlush(suits, faces),
-        'Full house':isFullHouse(faces),
-        'Four of a kind':isFourOfAKindPresent(faces),
-        'Straight flush':isStraightFlush(suits, faces),
-        'Royal flush': isRoyalFlush(suits, faces) 
+        'Full house': isFullHouse(faces),
+        'Four of a kind': isFourOfAKindPresent(faces),
+        'Straight flush': isStraightFlush(suits, faces),
+        'Royal flush': isRoyalFlush(suits, faces)
     }
-    
-    console.log(handChecker)
-    Object.keys(handChecker).forEach(hand =>{
-        if (handChecker[hand]){
-            return hand
+
+    var keys = Object.keys(handChecker)
+
+    let trueHand = ''
+    Object.keys(handChecker).forEach(hand => {
+        if (handChecker[hand] == true) {
+            console.log(hand);
+            trueHand = hand
         }
     })
-    return 'High card'
+
+    if (trueHand != '') {
+        return trueHand;
+    }
+    else {
+        return 'High card';
+    }
+}
+
+
+// var returned = isFullHouse([7, 7, 7, 2, 2])
+// console.log(returned)
+
+// var returned2 = identifiedHand(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 7, 2])
+// console.log(returned2)
+
+
+// console.log(isStraight(['C', 'D', 'D', 'S', 'H'], ['A', 'J', 'Q', 'K', 'T'])) //424
+
+var comboMaker = () => {
+    var playerFaces = [4, 9]
+    var playerSuits = ['C', 'D']
+    var communityFaces = [2, 5, 'T', 'J', 'K']
+    var communitySuits = ['H', 'S', 'C', 'D', 'S']
+
+    // for (let p = 0; p < playerFaces.length; p++) {
+    //     for (let c = 0; c < communityFaces.length; c++) {
+    //         let clonedPlayerFaces = [...playerFaces];
+    //         let clonedcommunityFaces = [...communityFaces];
+
+    //         clonedcommunityFaces.splice(c, 1, playerFaces[p])
+    //         console.log(clonedcommunityFaces);
+    //     }
+    // }
+
+    // for (let p = 0; p < playerFaces.length; p++) {
+    //     for (let c = 0; c < communityFaces.length; c++) {
+    //         for (let t = 0; t < communityFaces.length; t++) {
+
+    //             var clonedPlayerFaces = [...playerFaces];
+    //             var clonedcommunityFaces = [...communityFaces];
+
+    //             clonedcommunityFaces.splice(c, 1, playerFaces[p])
+
+    //             if (t != c) {
+    //                 // clonedcommunityFaces.splice(c, 1, playerFaces[p + 1])
+    //                 // clonedcommunityFaces.splice(c, 1, playerFaces[p])
+    //                 clonedcommunityFaces.splice(t, 1, playerFaces[p])
+    //             }
+
+    //             console.log(clonedcommunityFaces);
+    //         }
+
+    //         // clonedcommunityFaces.splice(c, 1, playerFaces[p + 1])
+    //         // console.log(clonedcommunityFaces)
+    //     }
+    // }
+
+    var possiblecombinations = []
+    // var clonedPlayerFaces = [...playerFaces];
+    // var clonedcommunityFaces = [...communityFaces];
+
+    for (let c = 0; c < communityFaces.length; c++) {       
+        for (let t = 0; t < communityFaces.length; t++) {
+            let clonedPlayerFaces = [...playerFaces];
+            let clonedcommunityFaces = [...communityFaces];
+            
+            
+            clonedcommunityFaces.splice(c, 1, playerFaces[0])
+
+            if (t != c) {
+                clonedcommunityFaces.splice(t, 1, playerFaces[1])
+                possiblecombinations.push(clonedcommunityFaces)
+            }
+        }
+    }
+
+    for (let c = 0; c < communityFaces.length; c++) {       
+        let clonedPlayerFaces = [...playerFaces];
+        let clonedcommunityFaces = [...communityFaces];  
+        clonedcommunityFaces.splice(c, 1, playerFaces[0])
+        possiblecombinations.push(clonedcommunityFaces)
+    }
+
+    for (let c = 0; c < communityFaces.length; c++) {       
+        let clonedPlayerFaces = [...playerFaces];
+        let clonedcommunityFaces = [...communityFaces];  
+        clonedcommunityFaces.splice(c, 1, playerFaces[1])
+        possiblecombinations.push(clonedcommunityFaces)
+    }
+
+
+
+
+    console.log(possiblecombinations)
+
+
+
 
 }
 
-var returned = identifiedHand(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 7, 2])
 
-console.log(returned)
+handMaker();
+
+
+
+var getHand = (faceCombos, suitCombos) => {
+
+    for(let index=0; index < faceCombos.length; index++) {
+        
+    }
+
+}
+
+
 
 
 
