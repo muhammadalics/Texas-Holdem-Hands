@@ -14,15 +14,15 @@ var countOccurrence = (arr) => {
 var isCountPresent = (arr, num) => {
     let count = countOccurrence(arr);
     // console.log(count);
-    return Object.values(count).includes(num);
+    return [Object.values(count).includes(num), count];
 }
 
-var isPairPresent = (arr) => isCountPresent(arr, 2)
+var isPairPresent = (arr) => isCountPresent(arr, 2)[0]
 
-var isThreeOfAKindPresent = (arr) => isCountPresent(arr, 3)
+var isThreeOfAKindPresent = (arr) => isCountPresent(arr, 3)[0]
 
 //Suits dont matter for four of a kind
-var isFourOfAKindPresent = (faces) => isCountPresent(faces, 4)
+var isFourOfAKindPresent = (faces) => isCountPresent(faces, 4)[0]
 
 //exclusive check
 var twoPairsPresent = (arr) => {
@@ -35,16 +35,6 @@ var twoPairsPresent = (arr) => {
     })
     return pairCount == 2;
 }
-
-// var deleteOneIfPresent = (arr) => {
-//     // console.log(arr)
-//     indexOfOne = arr.indexOf(1); //Check if Ace is present
-//     // console.log('Index of One: ', indexOfOne)
-//     if (indexOfOne != -1) {
-//         arr.splice(indexOfOne, 1)
-//     }
-//     return arr;
-// }
 
 var areNumbersInSequence = (arr) => {
     // console.log(arr)
@@ -62,20 +52,44 @@ var areNumbersInSequence = (arr) => {
     return checkAllEqual(subtractionArray) && subtractionArray[0] == 1;
 }
 
-var convertFacesToNumeric = (faces) => {
-    kvPairs = {
-        'T': 10,
-        'J': 11,
-        'Q': 12,
-        'K': 13,
-        'A': 14
-    }
+var faceToNumber = {
+    'T': 10,
+    'J': 11,
+    'Q': 12,
+    'K': 13,
+    'A': 14
+}
 
-    Object.keys(kvPairs).forEach(element => {
+var numberToFace = {
+    10: 'T',
+    11: 'J',
+    12: 'Q',
+    13: 'K',
+    14: 'A',
+    
+}
+
+
+var faceTranslator = (scheme, faces) => {
+    // faceToNumber = {
+    //     'T': 10,
+    //     'J': 11,
+    //     'Q': 12,
+    //     'K': 13,
+    //     'A': 14
+    // }
+
+    // console.log(Object.keys(scheme))
+
+    Object.keys(scheme).forEach(element => {
+        element = returnNum(element)
         let index = faces.indexOf(element);
+        // console.log(element)
+        // console.log(index);
         if (index != -1) {
-            faces.splice(index, 1, kvPairs[element])
-            // console.log(typeof (kvPairs[element]))
+            // console.log(scheme[element]);            
+            faces.splice(index, 1, scheme[element])
+            
         }
 
     })
@@ -99,7 +113,7 @@ var areArraysEqual = (arr1, arr2) => {
 
 var isRoyalFlush = (suits, faces) => {
     return checkAllEqual(suits) &&
-        areArraysEqual(convertFacesToNumeric(faces).sort((a, b) => a - b), [10, 11, 12, 13, 14]);
+        areArraysEqual(faceTranslator(faceToNumber, faces).sort((a, b) => a - b), [10, 11, 12, 13, 14]);
 }
 
 
@@ -109,7 +123,7 @@ var isStraightFlush = (suits, faces) => {
     // console.log('Third condition: ', !isRoyalFlush(suits, faces))
 
     return checkAllEqual(suits) &&
-        areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)) &&
+        areNumbersInSequence(faceTranslator(faceToNumber, faces).sort((a, b) => a - b)) &&
         !isRoyalFlush(suits, faces);
 }
 
@@ -137,37 +151,6 @@ var replaceAceByNum = (faces, num) => {
     return faces;
 }
 
-// var isStraight = (suits, faces) => {
-//     console.log('condition 1', areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)))
-//     console.log('condition 2', !isStraightFlush(suits, faces))
-//     console.log('condition 3', !isRoyalFlush(suits, faces))
-
-//     if (isAceByKing(faces)) {
-//         faces = replaceAcebyNum(faces, 14)
-//     }
-//     else {
-//         faces = replaceAcebyNum(faces, 1)
-//     }
-
-//     return areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)) &&
-//         !isStraightFlush(suits, faces) &&
-//         !isRoyalFlush(suits, faces);
-// }
-
-// var isStraight = (suits, faces) => {
-//     if (isAceByKing(faces)) {
-//         faces = replaceAceByNum(faces, 14)
-//     }
-//     else {
-//         faces = replaceAceByNum(faces, 1)
-//     }
-
-//     return areNumbersInSequence(convertFacesToNumeric(faces).sort((a, b) => a - b)) &&
-//         !isStraightFlush(suits, faces) &&
-//         !isRoyalFlush(suits, faces);
-// }
-
-
 var isStraight = (suits, faces) => {
     let copiedSuits = [...suits];
     let copiedFaces = [...faces];
@@ -186,11 +169,11 @@ var isStraight = (suits, faces) => {
     }
 
     // console.log('copied faces', copiedFaces)
-    // console.log('condition 1', areNumbersInSequence(convertFacesToNumeric(copiedFaces).sort((a, b) => a - b)))
+    // console.log('condition 1', areNumbersInSequence(faceTranslator(copiedFaces).sort((a, b) => a - b)))
     // console.log('condition 2', !isStraightFlush(copiedSuits, copiedFaces))
     // console.log('condition 3', !isRoyalFlush(copiedSuits, copiedFaces))
 
-    return areNumbersInSequence(convertFacesToNumeric(copiedFaces).sort((a, b) => a - b)) &&
+    return areNumbersInSequence(faceTranslator(faceToNumber, copiedFaces).sort((a, b) => a - b)) &&
         !isStraightFlush(copiedSuits, copiedFaces) &&
         !isRoyalFlush(copiedSuits, copiedFaces);
 }
@@ -258,58 +241,10 @@ var identifiedHand = (suits, faces) => {
 }
 
 
-// var returned = isFullHouse([7, 7, 7, 2, 2])
-// console.log(returned)
-
-// var returned2 = identifiedHand(['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 7, 2])
-// console.log(returned2)
-
-
-// console.log(isStraight(['C', 'D', 'D', 'S', 'H'], ['A', 'J', 'Q', 'K', 'T'])) //424
-
 var comboMaker = (playerFaces, playerSuits, communityFaces, communitySuits) => {
-    // var playerFaces = [4, 9]
-    // var playerSuits = ['C', 'D']
-    // var communityFaces = [2, 5, 'T', 'J', 'K']
-    // var communitySuits = ['H', 'S', 'C', 'D', 'S']
-
-    // for (let p = 0; p < playerFaces.length; p++) {
-    //     for (let c = 0; c < communityFaces.length; c++) {
-    //         let clonedPlayerFaces = [...playerFaces];
-    //         let clonedcommunityFaces = [...communityFaces];
-
-    //         clonedcommunityFaces.splice(c, 1, playerFaces[p])
-    //         console.log(clonedcommunityFaces);
-    //     }
-    // }
-
-    // for (let p = 0; p < playerFaces.length; p++) {
-    //     for (let c = 0; c < communityFaces.length; c++) {
-    //         for (let t = 0; t < communityFaces.length; t++) {
-
-    //             var clonedPlayerFaces = [...playerFaces];
-    //             var clonedcommunityFaces = [...communityFaces];
-
-    //             clonedcommunityFaces.splice(c, 1, playerFaces[p])
-
-    //             if (t != c) {
-    //                 // clonedcommunityFaces.splice(c, 1, playerFaces[p + 1])
-    //                 // clonedcommunityFaces.splice(c, 1, playerFaces[p])
-    //                 clonedcommunityFaces.splice(t, 1, playerFaces[p])
-    //             }
-
-    //             console.log(clonedcommunityFaces);
-    //         }
-
-    //         // clonedcommunityFaces.splice(c, 1, playerFaces[p + 1])
-    //         // console.log(clonedcommunityFaces)
-    //     }
-    // }
 
     let faceCombos = []
     let suitCombos = []
-    // var clonedPlayerFaces = [...playerFaces];
-    // var clonedcommunityFaces = [...communityFaces];
 
     for (let c = 0; c < communityFaces.length; c++) {
         for (let t = 0; t < communityFaces.length; t++) {
@@ -353,19 +288,9 @@ var comboMaker = (playerFaces, playerSuits, communityFaces, communitySuits) => {
 
     }
 
-
-
-
-    // console.log(faceCombos)
-    // console.log(suitCombos)
-
-
     return [suitCombos, faceCombos]
 
 }
-
-
-
 
 
 var getHand = (playerFaces, playerSuits, communityFaces, communitySuits) => {
@@ -374,14 +299,20 @@ var getHand = (playerFaces, playerSuits, communityFaces, communitySuits) => {
     [suitCombos, faceCombos] = comboMaker(playerFaces, playerSuits, communityFaces, communitySuits);
 
     var handValue = 0;
+    let handSuit;
+    let handFace;
+
+
     for (let index = 0; index < faceCombos.length; index++) {
         if (identifiedHand(suitCombos[index], faceCombos[index])[1] > handValue) {
 
             handValue = identifiedHand(suitCombos[index], faceCombos[index])[1]
+            handSuit = suitCombos[index]
+            handFace = faceCombos[index]
         }
 
     }
-    return handValue
+    return [handValue, handSuit, handFace]
 }
 
 
@@ -412,7 +343,7 @@ var getHand = (playerFaces, playerSuits, communityFaces, communitySuits) => {
 
 let readline = require('readline');
 var readUserInput = () => {
-    
+
 
     let input = [];
 
@@ -482,13 +413,13 @@ var readUserInput = () => {
 
 
 
-var returnNum = (val) =>{
-    if (!isNaN(val)){
+var returnNum = (val) => {
+    if (!isNaN(val)) {
         return parseInt(val);
     }
-    else{
+    else {
         return val;
-    } 
+    }
 }
 
 
@@ -517,16 +448,16 @@ var parseInput = (userInput) => {
     let extracteddata = userInput[0].split(" ")
     let communityFaces = splitSuitAndFace(extracteddata)[0];
     let communitySuits = splitSuitAndFace(extracteddata)[1];
-    
+
     let playerSuitsAndFaces = {}
-    
+
 
     for (let index = 1; index < userInput.length; index++) {
-            let extracteddata = userInput[index].split(" ")
-            playerSuitsAndFaces[extracteddata[0]] = [splitSuitAndFace(extracteddata.slice(1))[0], splitSuitAndFace(extracteddata.slice(1))[1]]
+        let extracteddata = userInput[index].split(" ")
+        playerSuitsAndFaces[extracteddata[0]] = [splitSuitAndFace(extracteddata.slice(1))[0], splitSuitAndFace(extracteddata.slice(1))[1]]
     }
 
-    
+
     console.log('Parsing data now')
     console.log(communityFaces);
     console.log(communitySuits);
@@ -536,51 +467,130 @@ var parseInput = (userInput) => {
 
 }
 
+var findKeysbyValue = (givenObject, val) => {
+    let keys = Object.keys(givenObject);
+    let allInstances = keys.filter(key => givenObject[key] == val)
+    return allInstances;
+};
 
 
 
-// ; ( async () => {
-//     // console.log(await question("how old are you? "));
-//     response = await question("how old are you? ");
-//     parseInput(response);
-    
 
-// })();
+var describeHand = (handValue, handSuit, handFace) => {
+    wordsForFaces = {
+        1: 'One',
+        2: 'Two',
+        3: 'Three',
+        4: 'Four',
+        5: 'Five',
+        6: 'Six',
+        7: 'Seven',
+        8: 'Eight',
+        9: 'Nine',
+        'T': 'Ten',
+        'J': 'Joker',
+        'Q': 'Queen',
+        'K': 'King',
+        'A': 'Ace'
+    }
+
+    let description;
+
+    if (handValue == 2) {
+        let count = isCountPresent(handFace, 2)[1];
+        let key = findKeysbyValue(count, 2)[0] //find the face on pair        
+        description = "Pair " + key;
+    }
+
+    else if (handValue == 3) {
+        let count = isCountPresent(handFace, 2)[1];
+        let keys = findKeysbyValue(count, 2)
+        description = "Two Pair " + wordsForFaces[keys[0]] + 's ' + wordsForFaces[keys[1]] + 's';
+    }
+    //Three of a kind
+    else if (handValue == 4) {
+        let count = isCountPresent(handFace, 3)[1];
+        let keys = findKeysbyValue(count, 3)
+
+        let oneKeys = findKeysbyValue(count, 1) // This is to get the names of faces that are not part of the three
+
+        description = "Three " + wordsForFaces[keys[0]] + 's, with ' +  wordsForFaces[oneKeys[0]] + ', ' + wordsForFaces[oneKeys[1]] + ' kickers';
+    }
+
+    else if (handValue == 5) {
+       if (isAceByKing(handFace)){
+           var modhandFace = replaceAceByNum(handFace, 14)       
+       }
+       else{
+            var modhandFace = replaceAceByNum(handFace, 1)
+       }
+      
+        let translatedFaces = faceTranslator(faceToNumber, modhandFace).sort((a, b) => a - b);
+
+        if (translatedFaces[translatedFaces.length-1] <11){
+            description = translatedFaces[translatedFaces.length-1] + '-high straight'
+        }
+        else {
+            description = wordsForFaces[faceTranslator(numberToFace, translatedFaces)[translatedFaces.length-1]] + '-high straight'
+        }
+        
+
+        
 
 
-; ( async () => {
-    response = await readUserInput();
-    
-    var communityFaces;
-    var communitySuits;
-    var playerSuitsAndFaces;
-    [communitySuits, communityFaces, playerSuitsAndFaces] = parseInput(response);
-
-    var playerHandName = {}
-    console.log('hello')
-    console.log(playerSuitsAndFaces)
-
-    console.log(Object.keys(playerSuitsAndFaces));
-
-    Object.keys(playerSuitsAndFaces).map(name => {
-        // console.log('inside map function')
-        // console.log(name);
-        // console.log(playerHandName);
-        // console.log(playerSuitsAndFaces[1]);
-        // console.log(playerSuitsAndFaces[0]);
-        // console.log(communityFaces);
-        // console.log(communitySuits);
-
-        playerHandName[name] = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
-
-        console.log(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
+    }
 
 
-    });
 
-    console.log(playerHandName);
-    
-})();
+    return description;
+}
+
+
+    // ; ( async () => {
+    //     // console.log(await question("how old are you? "));
+    //     response = await question("how old are you? ");
+    //     parseInput(response);
+
+
+    // })();
+
+
+    ; (async () => {
+        // faceTranslator(numberToFace, [12, 11, 13, 14, 10])
+        describeHand(5, ['C', 'D', 'D', 'S', 'H'], ['A', 'Q', 'K', 'J', 'T'])
+        
+        response = await readUserInput();
+
+        var communityFaces;
+        var communitySuits;
+        var playerSuitsAndFaces;
+        [communitySuits, communityFaces, playerSuitsAndFaces] = parseInput(response);
+
+        var playerHandName = {}
+        console.log('hello')
+        console.log(playerSuitsAndFaces)
+
+        console.log(Object.keys(playerSuitsAndFaces));
+
+        Object.keys(playerSuitsAndFaces).map(name => {
+            // console.log('inside map function')
+            // console.log(name);
+            // console.log(playerHandName);
+            // console.log(playerSuitsAndFaces[1]);
+            // console.log(playerSuitsAndFaces[0]);
+            // console.log(communityFaces);
+            // console.log(communitySuits);
+
+            playerHandName[name] = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
+
+            console.log(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
+
+
+        });
+
+        console.log(playerHandName);
+
+    })();
 
 
 
@@ -597,7 +607,7 @@ module.exports = {
     isFourOfAKindPresent: isFourOfAKindPresent,
     twoPairsPresent: twoPairsPresent,
     areNumbersInSequence: areNumbersInSequence,
-    convertFacesToNumeric: convertFacesToNumeric,
+    faceTranslator: faceTranslator,
     isRoyalFlush: isRoyalFlush,
     areArraysEqual: areArraysEqual,
     isStraightFlush: isStraightFlush,
@@ -607,7 +617,9 @@ module.exports = {
     isThreeOfAKind: isThreeOfAKind,
     isPair: isPair,
     identifiedHand: identifiedHand,
-    getHand: getHand
+    getHand: getHand,
+    findKeysbyValue: findKeysbyValue,
+    describeHand: describeHand
     // a1: a1
 }
 

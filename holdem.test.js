@@ -93,29 +93,51 @@ test('Are numbers in sequence ?', () => {
     expect(holdem.areNumbersInSequence([1, 3, 7, 4, 5])).toBe(false)
 })
 
+var kvPairs = {
+    'T': 10,
+    'J': 11,
+    'Q': 12,
+    'K': 13,
+    'A': 14
+}
+
+var numberToFace = {
+    10: 'T',
+    11: 'J',
+    12: 'Q',
+    13: 'K',
+    14: 'A'
+}
+
+
 test('Are faces translated to numbers properly?', () => {
-    expect(holdem.convertFacesToNumeric([1, 3, 'K', 4, 5])).toStrictEqual([1, 3, 13, 4, 5])
+    expect(holdem.faceTranslator(kvPairs, [1, 3, 'K', 4, 5])).toStrictEqual([1, 3, 13, 4, 5])
 })
 
 test('Is Queen translated to 12?', () => {
-    expect(holdem.convertFacesToNumeric([1, 'Q', 5, 4, 5])).toStrictEqual([1, 12, 5, 4, 5])
+    expect(holdem.faceTranslator(kvPairs, [1, 'Q', 5, 4, 5])).toStrictEqual([1, 12, 5, 4, 5])
 })
 
 test('Is Ace translated to 14?', () => {
-    expect(holdem.convertFacesToNumeric([1, 3, 'A', 4, 5])).toStrictEqual([1, 3, 14, 4, 5])
+    expect(holdem.faceTranslator(kvPairs, [1, 3, 'A', 4, 5])).toStrictEqual([1, 3, 14, 4, 5])
 })
 
 test('Is T translated to 10?', () => {
-    expect(holdem.convertFacesToNumeric(['T', 3, 2, 4, 5])).toStrictEqual([10, 3, 2, 4, 5])
+    expect(holdem.faceTranslator(kvPairs, ['T', 3, 2, 4, 5])).toStrictEqual([10, 3, 2, 4, 5])
 })
 
 test('Is joker translated to 11?', () => {
-    expect(holdem.convertFacesToNumeric([1, 3, 1, 4, 'J'])).toStrictEqual([1, 3, 1, 4, 11])
+    expect(holdem.faceTranslator(kvPairs, [1, 3, 1, 4, 'J'])).toStrictEqual([1, 3, 1, 4, 11])
 })
 
 test('Are faces translated to numbers properly?', () => {
-    expect(holdem.convertFacesToNumeric(['Q', 'J', 'K', 'A', 'T'])).toStrictEqual([12, 11, 13, 14, 10])
+    expect(holdem.faceTranslator(kvPairs, ['Q', 'J', 'K', 'A', 'T'])).toStrictEqual([12, 11, 13, 14, 10])
 })
+
+test('Are faces translated to numbers properly?', () => {
+    expect(holdem.faceTranslator(numberToFace, [12, 11, 13, 14, 10])).toStrictEqual(['Q', 'J', 'K', 'A', 'T'])
+})
+
 
 test('Are Arrays Equal?', () => {
     expect(holdem.areArraysEqual([1, 1, 1, 1, 1], [1, 1, 1, 1, 1])).toBe(true)
@@ -603,7 +625,7 @@ test('What hand is it?', () => {
 })
 
 test('What hand is it?', () => {
-    expect(holdem.identifiedHand(['C', 'D', 'D', 'S', 'H'], [2, 2, 9, 9, 9])[0]).toBe('Full house') //three of a kind
+    expect(holdem.identifiedHand(['C', 'D', 'D', 'S', 'H'], [2, 2, 9, 9, 9])[0]).toBe('Full house') 
 })
 
 test('What hand is it?', () => {
@@ -631,7 +653,7 @@ test('What hand is it?', () => {
 })
 
 test('What hand is it?', () => {
-    expect(holdem.identifiedHand(['C', 'H', 'D', 'C', 'S'], [10, 4, 7, 'K', 2])[0]).toBe('High card') //four of a kind
+    expect(holdem.identifiedHand(['C', 'H', 'D', 'C', 'S'], [10, 4, 7, 'K', 2])[0]).toBe('High card') //High card
 })
 
 test("Given community and a player's cards,  what hand is it?", () => {
@@ -640,7 +662,7 @@ test("Given community and a player's cards,  what hand is it?", () => {
         ['S', 'D'],
         [4, 'K', 4, 8, 7],
         ['C', 'S', 'H', 'S', 'S']
-    )).toBe(4) //Three of a kind
+    )[0]).toBe(4) //Three of a kind
 })
 
 test("Given community and a player's cards,  what hand is it?", () => {
@@ -649,7 +671,7 @@ test("Given community and a player's cards,  what hand is it?", () => {
         ['S', 'S'],
         [4, 'K', 4, 8, 7],
         ['C', 'S', 'H', 'S', 'S']
-    )).toBe(6) //Flush
+    )[0]).toBe(6) //Flush
 })
 
 test("Given community and a player's cards,  what hand is it?", () => {
@@ -658,7 +680,7 @@ test("Given community and a player's cards,  what hand is it?", () => {
         ['H', 'D'],
         [4, 'K', 4, 8, 7],
         ['C', 'S', 'H', 'S', 'S']
-    )).toBe(7) //Full house
+    )[0]).toBe(7) //Full house
 })
 
 test("Given community and a player's cards,  what hand is it?", () => {
@@ -667,7 +689,7 @@ test("Given community and a player's cards,  what hand is it?", () => {
         ['D', 'D'],
         [4, 'K', 4, 8, 7],
         ['C', 'S', 'H', 'S', 'S']
-    )).toBe(5) //Straight
+    )[0]).toBe(5) //Straight
 })
 
 test("Given community and a player's cards,  what hand is it?", () => {
@@ -676,7 +698,7 @@ test("Given community and a player's cards,  what hand is it?", () => {
         ['H', 'S'],
         ['K', 'A', 3, 7, 'T'],
         ['S', 'D', 'H', 'C', 'D']
-    )).toBe(2) //Pair
+    )[0]).toBe(2) //Pair
 })
 
 test("Given community and a player's cards,  what hand is it?", () => {
@@ -685,7 +707,7 @@ test("Given community and a player's cards,  what hand is it?", () => {
         ['C', 'H'],
         ['K', 'A', 3, 7, 'T'],
         ['S', 'D', 'H', 'C', 'D']
-    )).toBe(3) // Two Pair
+    )[0]).toBe(3) // Two Pair
 })
 
 test("Given community and a player's cards,  what hand is it?", () => {
@@ -694,5 +716,37 @@ test("Given community and a player's cards,  what hand is it?", () => {
         ['D', 'C'],
         ['K', 'A', 3, 7, 'T'],
         ['S', 'D', 'H', 'C', 'D']
-    )).toBe(5) // Straight
+    )[0]).toBe(5) // Straight
 })
+
+
+test('All keys found by value ?', () => {
+    expect(holdem.findKeysbyValue({'a': 2, 'b':2, 'c': 1}, 2)).toStrictEqual(['a', 'b']) 
+})
+
+test('Pair hand description', () => {
+    expect(holdem.describeHand(2, ['C', 'D', 'D', 'D', 'S'], [2, 2, 'K', 9, 'T'])).toBe('Pair 2') //pair
+})
+
+test('Two Pairs - hand description?', () => {
+    expect(holdem.describeHand(3, ['C', 'D', 'D', 'D', 'H'], [2, 2, 9, 9, 'T'])).toBe('Two Pair Twos Nines') //two pair
+})
+
+test('Three of a kind - hand description?', () => {
+    expect(holdem.describeHand(4, ['C', 'D', 'D', 'S', 'H'], [2, 7, 9, 9, 9])).toBe('Three Nines, with Two, Seven kickers') //three of a kind
+})
+
+test('Straight - hand description?', () => {
+    expect(holdem.describeHand(5, ['C', 'D', 'D', 'S', 'H'], ['A', 3, 4, 2, 5])).toBe('5-high straight') //straight
+})
+
+test('Straight - hand description?', () => {
+    expect(holdem.describeHand(5, ['C', 'D', 'D', 'S', 'H'], ['A', 'Q', 'K', 'J', 'T'])).toBe('Ace-high straight') //straight
+})
+
+test('Straight - hand description?', () => {
+    expect(holdem.describeHand(5, ['C', 'D', 'D', 'S', 'H'], ['T', 9, 8, 7, 6])).toBe('10-high straight') //straight
+})
+
+
+
