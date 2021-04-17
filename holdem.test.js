@@ -748,5 +748,82 @@ test('Straight - hand description?', () => {
     expect(holdem.describeHand(5, ['C', 'D', 'D', 'S', 'H'], ['T', 9, 8, 7, 6])).toBe('10-high straight') //straight
 })
 
+test('Flush - hand description', () => {
+    expect(holdem.describeHand(6, ['D', 'D', 'D', 'D', 'D'], [7, 5, 2, 'A', 'Q'])).toBe('Ace-high flush') //flush
+})
 
+test('Flush - hand description', () => {
+    expect(holdem.describeHand(6, ['D', 'D', 'D', 'D', 'D'], [7, 5, 2, 'K', 'Q'])).toBe('King-high flush') //flush
+})
 
+test('Full house - hand description', () => {
+    expect(holdem.describeHand(7, ['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 2, 2])).toBe('Full house - Three Sevens and Two Twos') //full house
+})
+
+test('Full house - hand description', () => {
+    expect(holdem.describeHand(7, ['S', 'D', 'C', 'H', 'D'], ['A', 'A', 'A', 'K', 'K'])).toBe('Full house - Three Aces and Two Kings') //full house
+})
+
+test('Four of a kind - hand description', () => {
+    expect(holdem.describeHand(8, ['S', 'D', 'C', 'H', 'D'], [7, 7, 7, 7, 2])).toBe('Four Sevens, with Two') //full house
+})
+
+test('Four of a kind - hand description', () => {
+    expect(holdem.describeHand(8, ['S', 'D', 'C', 'H', 'D'], ['A', 'A', 'A', 'A', 'T'])).toBe('Four Aces, with Ten') //full house
+})
+
+test('Four of a kind - hand description', () => {
+    expect(holdem.describeHand(8, ['S', 'D', 'C', 'H', 'S'], ['K', 'K', 'K', 3, 'K'])).toBe('Four Kings, with Three') //full house
+})
+
+test('Straight Flush - hand description?', () => {
+    expect(holdem.describeHand(9, ['H', 'H', 'H', 'H', 'H'], ['A', 3, 4, 2, 5])).toBe('5-high straight flush') //straight flush
+})
+
+test('Straight Flush - hand description?', () => {
+    expect(holdem.describeHand(9, ['C', 'C', 'C', 'C', 'C'], ['A', 'Q', 'K', 'J', 'T'])).toBe('Ace-high straight flush') //straight flush
+})
+
+test('Straight Flush - hand description?', () => {
+    expect(holdem.describeHand(9, ['D', 'D', 'D', 'D', 'D'], ['T', 9, 8, 7, 6])).toBe('10-high straight flush') //straight flush
+})
+
+test('High card - hand description?', () => {
+    expect(holdem.describeHand(1, ['C', 'H', 'D', 'C', 'S'], ['T', 4, 7, 'K', 2] )).toBe('High card - Ten, Four, Seven, King, Two') //High card
+})
+
+test('tieBreakerPair', () => {
+    expect(holdem.tieBreakPair(['T', 'T', 7, 'K', 2], ['T', 'T', 7, 'Q', 2] )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreakerPair', () => {
+    expect(holdem.tieBreakPair(['K', 'K', 7, 'K', 2], ['K', 'K', 7, 'A', 2] )).toStrictEqual([0, 1]) 
+})
+
+test('tieBreakerPair', () => {
+    expect(holdem.tieBreakPair(['A', 'A', 7, 'K', 2], ['T', 'T', 7, 'Q', 2] )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreakerPair', () => {
+    expect(holdem.tieBreakPair(['Q', 'Q', 7, 'K', 2], ['T', 'T', 7, 'Q', 2] )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreakerPair', () => {
+    expect(holdem.tieBreakPair(['Q', 'Q', 7, 'K', 2], ['J', 'J', 7, 'Q', 2] )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreakerHighCard', () => {
+    expect(holdem.tieBreakHighCard(['T', 4, 7, 'K', 2], [9, 4, 7, 'A', 2])).toStrictEqual([0, 1]) 
+})
+
+test('tieBreakerHighCard', () => {
+    expect(holdem.tieBreakHighCard(['A', 4, 7, 'K', 2], [9, 4, 7, 'A', 2])).toStrictEqual([1, 0]) 
+})
+
+test('tieBreakerHighCard', () => {
+    expect(holdem.tieBreakHighCard(['Q', 4, 7, 'K', 2], ['Q', 4, 7, 'A', 2])).toStrictEqual([0, 1]) 
+})
+
+test('tieBreakerHighCard', () => {
+    expect(holdem.tieBreakHighCard(['Q', 4, 7, 8, 3], ['Q', 4, 7, 8, 2])).toStrictEqual([1, 0]) 
+})

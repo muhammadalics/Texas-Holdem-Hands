@@ -66,7 +66,7 @@ var numberToFace = {
     12: 'Q',
     13: 'K',
     14: 'A',
-    
+
 }
 
 
@@ -89,7 +89,7 @@ var faceTranslator = (scheme, faces) => {
         if (index != -1) {
             // console.log(scheme[element]);            
             faces.splice(index, 1, scheme[element])
-            
+
         }
 
     })
@@ -140,7 +140,7 @@ var isFlush = (suits, faces) => {
 
 //this check is for isstraight only
 var isAceByKing = (faces) => {
-    return faces.includes('A') && faces.includes('K');
+    return faces.includes('A') && (faces.includes('K') || faces.includes('Q') || faces.includes('J') || faces.includes('T'));
 }
 //this check is for isstraight only
 var replaceAceByNum = (faces, num) => {
@@ -496,7 +496,16 @@ var describeHand = (handValue, handSuit, handFace) => {
 
     let description;
 
-    if (handValue == 2) {
+    if (handValue == 1) {
+        description = "High card -"
+        for (let index = 0; index < handFace.length - 1; index++) {
+            description += " " + wordsForFaces[handFace[index]] + ","
+        }
+        description += " " + wordsForFaces[handFace[4]]
+    }
+
+
+    else if (handValue == 2) {
         let count = isCountPresent(handFace, 2)[1];
         let key = findKeysbyValue(count, 2)[0] //find the face on pair        
         description = "Pair " + key;
@@ -514,36 +523,217 @@ var describeHand = (handValue, handSuit, handFace) => {
 
         let oneKeys = findKeysbyValue(count, 1) // This is to get the names of faces that are not part of the three
 
-        description = "Three " + wordsForFaces[keys[0]] + 's, with ' +  wordsForFaces[oneKeys[0]] + ', ' + wordsForFaces[oneKeys[1]] + ' kickers';
+        description = "Three " + wordsForFaces[keys[0]] + 's, with ' + wordsForFaces[oneKeys[0]] + ', ' + wordsForFaces[oneKeys[1]] + ' kickers';
     }
 
     else if (handValue == 5) {
-       if (isAceByKing(handFace)){
-           var modhandFace = replaceAceByNum(handFace, 14)       
-       }
-       else{
-            var modhandFace = replaceAceByNum(handFace, 1)
-       }
-      
-        let translatedFaces = faceTranslator(faceToNumber, modhandFace).sort((a, b) => a - b);
-
-        if (translatedFaces[translatedFaces.length-1] <11){
-            description = translatedFaces[translatedFaces.length-1] + '-high straight'
+        if (isAceByKing(handFace)) {
+            var modhandFace = replaceAceByNum(handFace, 14)
         }
         else {
-            description = wordsForFaces[faceTranslator(numberToFace, translatedFaces)[translatedFaces.length-1]] + '-high straight'
+            var modhandFace = replaceAceByNum(handFace, 1)
         }
-        
 
-        
+        let translatedFaces = faceTranslator(faceToNumber, modhandFace).sort((a, b) => a - b);
 
+        if (translatedFaces[translatedFaces.length - 1] < 11) {
+            description = translatedFaces[translatedFaces.length - 1] + '-high straight'
+        }
+        else {
+            description = wordsForFaces[faceTranslator(numberToFace, translatedFaces)[translatedFaces.length - 1]] + '-high straight'
+        }
 
     }
 
+    else if (handValue == 6) {
+        if (isAceByKing(handFace)) {
+            var modhandFace = replaceAceByNum(handFace, 14)
+        }
+        else {
+            var modhandFace = replaceAceByNum(handFace, 1)
+        }
 
+        let translatedFaces = faceTranslator(faceToNumber, modhandFace).sort((a, b) => a - b);
+
+        if (translatedFaces[translatedFaces.length - 1] < 11) {
+            description = translatedFaces[translatedFaces.length - 1] + '-high flush'
+        }
+        else {
+            description = wordsForFaces[faceTranslator(numberToFace, translatedFaces)[translatedFaces.length - 1]] + '-high flush'
+        }
+    }
+
+    else if (handValue == 7) {
+        let count = isCountPresent(handFace, 3)[1];
+        let threeOfAKindKeys = findKeysbyValue(count, 3)
+        let pairKeys = findKeysbyValue(count, 2) // Get pair
+
+        description = "Full house - Three " + wordsForFaces[threeOfAKindKeys[0]] + "s and " + "Two " + wordsForFaces[pairKeys[0]] + "s"
+
+    }
+
+    else if (handValue == 8) {
+        let count = isCountPresent(handFace, 4)[1];
+        let fourOfAKindKeys = findKeysbyValue(count, 4)
+
+        let oneKeys = findKeysbyValue(count, 1) //"fifth card"
+
+        description = "Four " + wordsForFaces[fourOfAKindKeys[0]] + 's, with ' + wordsForFaces[oneKeys[0]];
+    }
+
+    else if (handValue == 9) {
+        if (isAceByKing(handFace)) {
+            var modhandFace = replaceAceByNum(handFace, 14)
+        }
+        else {
+            var modhandFace = replaceAceByNum(handFace, 1)
+        }
+
+        let translatedFaces = faceTranslator(faceToNumber, modhandFace).sort((a, b) => a - b);
+
+        if (translatedFaces[translatedFaces.length - 1] < 11) {
+            description = translatedFaces[translatedFaces.length - 1] + '-high straight flush'
+        }
+        else {
+            description = wordsForFaces[faceTranslator(numberToFace, translatedFaces)[translatedFaces.length - 1]] + '-high straight flush'
+        }
+
+    }
+
+    else if (handValue == 10) {
+        description = "Royal Flush" //no description needed because royal flush is unique except the suits.
+
+    }
 
     return description;
 }
+
+
+// var aceReplacer = (faces) => {
+//     if (faces.includes('A')) {
+//         if (isAceByKing(faces)) {
+//             replaceAceByNum(faces, 14)
+//         }
+//         else {
+//             replaceAceByNum(faces, 1)
+//         }
+//     }
+//     return faces;
+// }
+
+
+// var replaceAceByFourteen = (faces) => {
+//     if (faces.includes('A')) {
+//         faces.splice(faces.indexOf('A'), 1, 14)
+//     }
+//     return faces
+// }
+
+var areSameSets = (set1, set2) => {
+    return set1.every((val, index) => val === set2[index]);
+}
+
+// https://www.pokerstarsschool.com/lessons/poker-hand-rankings/
+var tieBreakPair = (faceSet1, faceSet2) => {
+    
+    if (areSameSets(faceSet1, faceSet2)){
+        return [0, 0]
+    }
+    
+    let set1 = [...faceSet1];
+    let set2 = [...faceSet2];
+
+    isSet1Greater = 0;
+    isSet2Greater = 0;
+
+    // set1 = replaceAceByFourteen(set1);
+    // set2 = replaceAceByFourteen(set2);
+
+    set1 = faceTranslator(faceToNumber, faceTranslator(faceToNumber, set1)) //because facetranslator doesnt replace all instances of a letter.
+    set2 = faceTranslator(faceToNumber, faceTranslator(faceToNumber, set2)) 
+
+    let count1 = isCountPresent(set1, 2)[1];
+    let key1 = parseInt(findKeysbyValue(count1, 2)[0]) //find the face on pair        
+
+    let count2 = isCountPresent(set2, 2)[1];
+    let key2 = parseInt(findKeysbyValue(count2, 2)[0]) //find the face on pair        
+
+    console.log('keys')
+    console.log(count1);
+    console.log(count2);
+    console.log('key1: ', key1);
+    console.log('key2: ',key2);
+
+    if (key1 > key2){
+        isSet1Greater = 1;
+    }
+    else if (key2 > key1){
+        isSet2Greater = 1;
+    }
+    else { //key2 == key1
+        set1 = set1.filter(x => x!=key1).sort((a, b) => b - a)
+        set2 = set2.filter(x => x!=key2).sort((a, b) => b - a)
+
+        console.log('sets')
+        console.log(set1)
+        console.log(set2)
+
+        if (set1[0] > set2[0]){
+            isSet1Greater = 1;
+        }
+        else {
+            isSet2Greater = 1;
+        }
+    }
+    
+    return [isSet1Greater, isSet2Greater];
+
+}
+
+
+var tieBreakHighCard = (faceSet1, faceSet2) => {
+    // Check if cards are identical outside!!!!    
+    let set1 = [...faceSet1];
+    let set2 = [...faceSet2];
+
+    isSet1Greater = 0;
+    isSet2Greater = 0;
+
+    set1 = faceTranslator(faceToNumber, set1).sort((a, b) => b - a) 
+    set2 = faceTranslator(faceToNumber, set2).sort((a, b) => b - a)
+    
+    for (let index = 0; index < 5; index++){
+        if (set1[index] > set2[index]){
+            // isSet1Greater = 1;
+            return [1, 0];
+        }
+        else if (set2[index] > set1[index]) {
+            // isSet2Greater = 1;
+            return [0, 1];
+        }
+            
+
+    }
+
+       
+
+}
+
+
+
+
+var bubbleSort = () => {
+
+}
+
+
+
+
+
+
+
+
+
 
 
     // ; ( async () => {
@@ -557,8 +747,9 @@ var describeHand = (handValue, handSuit, handFace) => {
 
     ; (async () => {
         // faceTranslator(numberToFace, [12, 11, 13, 14, 10])
-        describeHand(5, ['C', 'D', 'D', 'S', 'H'], ['A', 'Q', 'K', 'J', 'T'])
-        
+        // describeHand(1, ['C', 'D', 'D', 'S', 'H'], ['A', 'Q', 'K', 'J', 'T'])
+        tieBreakPair(['T', 'T', 7, 'K', 2], ['T', 'T', 7, 'Q', 2]);
+
         response = await readUserInput();
 
         var communityFaces;
@@ -619,7 +810,9 @@ module.exports = {
     identifiedHand: identifiedHand,
     getHand: getHand,
     findKeysbyValue: findKeysbyValue,
-    describeHand: describeHand
+    describeHand: describeHand,
+    tieBreakPair: tieBreakPair,
+    tieBreakHighCard:tieBreakHighCard
     // a1: a1
 }
 
