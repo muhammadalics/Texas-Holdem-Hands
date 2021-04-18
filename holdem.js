@@ -1,6 +1,12 @@
 const { arrayExpression, isFlowBaseAnnotation } = require("@babel/types");
 // const { Console } = require("node:console");
 
+// const { returnNum} = require('./helper_functions.js')
+
+// import {returnNum} from './helper_functions';
+
+var helper_functions = require('./helper_functions');
+
 var checkAllEqual = (arr) => arr.every(card => card == arr[0])
 
 var countOccurrence = (arr) => {
@@ -12,8 +18,7 @@ var countOccurrence = (arr) => {
 }
 
 var isCountPresent = (arr, num) => {
-    let count = countOccurrence(arr);
-    // console.log(count);
+    let count = countOccurrence(arr);   
     return [Object.values(count).includes(num), count];
 }
 
@@ -21,7 +26,6 @@ var isPairPresent = (arr) => isCountPresent(arr, 2)[0]
 
 var isThreeOfAKindPresent = (arr) => isCountPresent(arr, 3)[0]
 
-//Suits dont matter for four of a kind
 var isFourOfAKindPresent = (faces) => isCountPresent(faces, 4)[0]
 
 //exclusive check
@@ -29,26 +33,17 @@ var twoPairsPresent = (arr) => {
     let count = countOccurrence(arr);
     let pairCount = 0;
     Object.values(count).forEach(number => {
-        if (number == 2) {
-            pairCount++;
-        }
+        if (number == 2) {pairCount++;}
     })
     return pairCount == 2;
 }
 
 var areNumbersInSequence = (arr) => {
-    // console.log(arr)
-    // arr = deleteOneIfPresent(arr);
-    // console.log('Before sorting:', arr);
     sortedArray = arr.sort((a, b) => a - b);
-    // console.log('sorted array')
-    // console.log(sortedArray)
     subtractionArray = [];
     for (let index = 1; index < sortedArray.length; index++) {
         subtractionArray.push(sortedArray[index] - sortedArray[index - 1]) // if numbers are in sequence then this array will be all 1.       
     }
-    // console.log('are numbers in sequence?')
-    // console.log(checkAllEqual(subtractionArray) && subtractionArray[0] == 1)
     return checkAllEqual(subtractionArray) && subtractionArray[0] == 1;
 }
 
@@ -69,42 +64,20 @@ var numberToFace = {
 
 }
 
-
 var faceTranslator = (scheme, faces) => {
-    // faceToNumber = {
-    //     'T': 10,
-    //     'J': 11,
-    //     'Q': 12,
-    //     'K': 13,
-    //     'A': 14
-    // }
-
-    // console.log(Object.keys(scheme))
-
     Object.keys(scheme).forEach(element => {
-        element = returnNum(element)
+        element = helper_functions.returnNum(element)
         for (i = 0; i < 4; i++) {
             let index = faces.indexOf(element);
-            // console.log(element)
-            // console.log(index);
-
-
-
             if (index != -1) {
-                // console.log(scheme[element]);            
                 faces.splice(index, 1, scheme[element])
-
             }
         }
-
-
     })
-    // console.log('convert faces to numerics', faces)
     return faces;
 }
 
 var areArraysEqual = (arr1, arr2) => {
-
     if (arr1.length == arr2.length) {
         for (index = 0; index < arr1.length; index++) {
             if (arr1[index] != arr2[index]) {
@@ -122,12 +95,7 @@ var isRoyalFlush = (suits, faces) => {
         areArraysEqual(faceTranslator(faceToNumber, faces).sort((a, b) => a - b), [10, 11, 12, 13, 14]);
 }
 
-
 var isStraightFlush = (suits, faces) => {
-    // console.log('First condition: ', checkAllEqual(suits))
-    // console.log('Second condition: ', areNumbersInSequence(faces))
-    // console.log('Third condition: ', !isRoyalFlush(suits, faces))
-
     return checkAllEqual(suits) &&
         areNumbersInSequence(faceTranslator(faceToNumber, faces).sort((a, b) => a - b)) &&
         !isRoyalFlush(suits, faces);
@@ -150,10 +118,8 @@ var isAceByKing = (faces) => {
 }
 //this check is for isstraight only
 var replaceAceByNum = (faces, num) => {
-    let indexOfAce = faces.indexOf('A');
-    // console.log(indexOfAce);
+    let indexOfAce = faces.indexOf('A');   
     faces.splice(indexOfAce, 1, num);
-    // console.log('replace ace by num: ', faces)
     return faces;
 }
 
@@ -161,32 +127,15 @@ var isStraight = (suits, faces) => {
     let copiedSuits = [...suits];
     let copiedFaces = [...faces];
 
-    // console.log('freshly copied faces: ', copiedFaces)
-    // console.log('freshly copied suits: ', copiedSuits)
-
     if (copiedFaces.includes('A')) {
-        if (isAceByKing(copiedFaces)) {
-            // console.log('inside if ', copiedFaces);
-            replaceAceByNum(copiedFaces, 14)
-        }
-        else {
-            replaceAceByNum(copiedFaces, 1)
-        }
+        let replaceNum = isAceByKing(copiedFaces) ? 14 : 1;
+        replaceAceByNum(copiedFaces, replaceNum);
     }
-
-    // console.log('copied faces', copiedFaces)
-    // console.log('condition 1', areNumbersInSequence(faceTranslator(copiedFaces).sort((a, b) => a - b)))
-    // console.log('condition 2', !isStraightFlush(copiedSuits, copiedFaces))
-    // console.log('condition 3', !isRoyalFlush(copiedSuits, copiedFaces))
 
     return areNumbersInSequence(faceTranslator(faceToNumber, copiedFaces).sort((a, b) => a - b)) &&
         !isStraightFlush(copiedSuits, copiedFaces) &&
         !isRoyalFlush(copiedSuits, copiedFaces);
 }
-
-
-
-
 
 // exclusive check
 var isThreeOfAKind = (faces) => {
@@ -226,14 +175,12 @@ var identifiedHand = (suits, faces) => {
         'Straight flush': isStraightFlush(suits, faces),
         'Royal flush': isRoyalFlush(suits, faces)
     }
-
-    // console.log(handChecker);
+   
     let keys = Object.keys(handChecker)
 
     let trueHand = ''
     Object.keys(handChecker).forEach(hand => {
         if (handChecker[hand] == true) {
-            // console.log(hand);
             trueHand = hand
         }
     })
@@ -278,8 +225,6 @@ var comboMaker = (playerFaces, playerSuits, communityFaces, communitySuits) => {
         let clonedcommunitySuits = [...communitySuits];
         clonedcommunitySuits.splice(c, 1, playerSuits[0])
         suitCombos.push(clonedcommunitySuits)
-
-
     }
 
     for (let c = 0; c < communityFaces.length; c++) {
@@ -322,30 +267,6 @@ var getHand = (playerFaces, playerSuits, communityFaces, communitySuits) => {
 }
 
 
-// console.log(isStraight(['S', 'S', 'D', 'D', 'H'], [8, 7, 6, 5, 4]))
-
-// console.log(
-//     getHand(['A', 4],
-//         ['S', 'D'],
-//         [4, 'K', 4, 8, 7],
-//         ['C', 'S', 'H', 'S', 'S']
-//     )
-// )
-
-
-
-
-
-// const readline = require('readline').createInterface({
-//     input: process.stdin,
-//     output: process.stdout
-//   });
-
-//   readline.question('Who are you?', name => {
-//     console.log(`Hey there ${name}!`);
-//     readline.close();
-//   });
-
 
 let readline = require('readline');
 var readUserInput = () => {
@@ -370,104 +291,41 @@ var readUserInput = () => {
         rl.on('close', function (cmd) {
 
             resolve(input)
-            // console.log(input)
-            // console.log(input.join('\n'));
-            // process.exit(0);
+
         });
 
 
     })
 };
 
-
-
-
-
-
-
-
-
-// const readline = require('readline');
-
-// const rl = readline.createInterface({
-//     input: process.stdin,
-//     output: process.stdout
-// });
-
-//  var question = function(q){
-
-//     var response;
-
-//     rl.setPrompt(q);
-//     rl.prompt();
-
-//     return new Promise(( resolve , reject) => {
-
-//         rl.on('line', (userInput) => {
-//             response = userInput;
-//             rl.close();
-//         });
-
-//         rl.on('close', () => {
-//             resolve(response);
-//         });
-
-//     });
-
-
-// };
-
-
-
-var returnNum = (val) => {
-    if (!isNaN(val)) {
-        return parseInt(val);
-    }
-    else {
-        return val;
-    }
-}
-
+// var returnNum = (val) => {
+//     let value = !isNaN(val) ? parseInt(val):val;
+//     return value;   
+// }
 
 var splitSuitAndFace = (arr) => {
     let suits = [];
     let faces = [];
 
     arr.forEach(element => {
-        // faces.push(element.charAt(0))
-        faces.push(returnNum(element.charAt(0)))
+        faces.push(helper_functions.returnNum(element.charAt(0)))
         suits.push(element.charAt(1))
     })
 
     return [suits, faces];
 }
 
-
-
 var parseInput = (userInput) => {
-
-    // let userInput = await readUserInput();
-
-
-    // let communityFaces = [];
-    // let communitySuits = [];
-    let extracteddata = userInput[0].split(" ")
-    let communityFaces = splitSuitAndFace(extracteddata)[0];
-    let communitySuits = splitSuitAndFace(extracteddata)[1];
-
+    let extracteddata = userInput[0].split(" ")  
+    let communityFaces;
+    let communitySuits;
+    [communityFaces, communitySuits] = splitSuitAndFace(extracteddata);
     let playerSuitsAndFaces = {}
-
 
     for (let index = 1; index < userInput.length; index++) {
         let extracteddata = userInput[index].split(" ")
         playerSuitsAndFaces[extracteddata[0]] = [splitSuitAndFace(extracteddata.slice(1))[0], splitSuitAndFace(extracteddata.slice(1))[1]]
     }
-
-
-    console.log('Parsing data now')
-    console.log(communityFaces);
-    console.log(communitySuits);
-    console.log(playerSuitsAndFaces);
 
     return [communitySuits, communityFaces, playerSuitsAndFaces]
 
@@ -478,9 +336,6 @@ var findKeysbyValue = (givenObject, val) => {
     let allInstances = keys.filter(key => givenObject[key] == val)
     return allInstances;
 };
-
-
-
 
 var describeHand = (handValue, handSuit, handFace) => {
     wordsForFaces = {
@@ -614,27 +469,6 @@ var describeHand = (handValue, handSuit, handFace) => {
     return description;
 }
 
-
-// var aceReplacer = (faces) => {
-//     if (faces.includes('A')) {
-//         if (isAceByKing(faces)) {
-//             replaceAceByNum(faces, 14)
-//         }
-//         else {
-//             replaceAceByNum(faces, 1)
-//         }
-//     }
-//     return faces;
-// }
-
-
-// var replaceAceByFourteen = (faces) => {
-//     if (faces.includes('A')) {
-//         faces.splice(faces.indexOf('A'), 1, 14)
-//     }
-//     return faces
-// }
-
 var areSameSets = (set1, set2) => {
     return set1.every((val, index) => val === set2[index]);
 }
@@ -673,48 +507,12 @@ var tieBreakMultiple = (faceSet1, faceSet2, num) => {
 
     for (let index = 0; index < 5; index++) {
         if (set1[index] > set2[index]) {
-
             return [1, 0];
         }
         else if (set2[index] > set1[index]) {
-
             return [0, 1];
         }
     }
-}
-
-
-var tieBreakThreeOfAKind = (faceSet1, faceSet2, num) => {
-    // Check if cards are identical outside!!!!
-    //num does nothing. dont remove. its there to reduce code size when calling bubble sort.        
-    let set1 = [...faceSet1];
-    let set2 = [...faceSet2];
-
-    let isSet1Greater = 0;
-    let isSet2Greater = 0;
-
-    // set1 = replaceAceByFourteen(set1);
-    // set2 = replaceAceByFourteen(set2);
-
-    set1 = faceTranslator(faceToNumber, set1)
-    set2 = faceTranslator(faceToNumber, set2)
-
-    let count1 = isCountPresent(set1, 3)[1];
-    let key1 = parseInt(findKeysbyValue(count1, 3)[0]) //find the face on pair        
-
-    let count2 = isCountPresent(set2, 3)[1];
-    let key2 = parseInt(findKeysbyValue(count2, 3)[0]) //find the face on pair   
-
-    if (key1 > key2) {
-        isSet1Greater = 1;
-    }
-    else {
-        isSet2Greater = 1;
-    }
-
-
-
-    return [isSet1Greater, isSet2Greater];
 }
 
 
@@ -818,8 +616,6 @@ var tieBreakTwoPair = (faceSet1, faceSet2, num) => {
     return [isSet1Greater, isSet2Greater];
 }
 
-
-
 // This function can break tie for pair, three of a kind and four of a kind
 var tieBreak234OfAKind = (faceSet1, faceSet2, num) => {
 
@@ -833,16 +629,8 @@ var tieBreak234OfAKind = (faceSet1, faceSet2, num) => {
     let isSet1Greater = 0;
     let isSet2Greater = 0;
 
-    // set1 = replaceAceByFourteen(set1);
-    // set2 = replaceAceByFourteen(set2);
-
-
-    // set1 = faceTranslator(faceToNumber, faceTranslator(faceToNumber, faceTranslator(faceToNumber, set1))) //because facetranslator doesnt replace all instances of a letter.
-    // set2 = faceTranslator(faceToNumber, faceTranslator(faceToNumber, faceTranslator(faceToNumber, set2)))
     set1 = faceTranslator(faceToNumber, set1) //because facetranslator doesnt replace all instances of a letter.
     set2 = faceTranslator(faceToNumber, set2)
-
-
 
     let count1 = isCountPresent(set1, num)[1];
     let key1 = parseInt(findKeysbyValue(count1, num)[0]) //find the face on pair        
@@ -882,19 +670,12 @@ var tieBreak234OfAKind = (faceSet1, faceSet2, num) => {
 
 
 
-
-
 let bubbleSort = (faces, tieBreakFn, num) => {
 
     let sortedFaces = [...faces]
-    // console.log('faces to be sorted')
-    // console.log(sortedFaces)
 
     for (let i = 0; i < sortedFaces.length - 1; i++) {
         for (let j = 0; j < sortedFaces.length - 1; j++) {
-            // console.log('inside for loop')
-            // console.log(sortedFaces[j], sortedFaces[j+1])
-
             let ranking = tieBreakFn(sortedFaces[j], sortedFaces[j + 1], num)
             if (ranking[0] < ranking[1]) {
                 let tmp = sortedFaces[j];
@@ -950,12 +731,7 @@ var tieChecker = (playerInfo) => {
 let bubbleSortRankings = (playerInfo) => {
 
     for (let i = 0; i < playerInfo.length - 1; i++) {
-        for (let j = 0; j < playerInfo.length - 1; j++) {
-            // console.log('inside for loop')
-            // console.log(sortedFaces[j], sortedFaces[j+1])
-
-            // let ranking = tieBreakFn(sortedFaces[j], sortedFaces[j + 1], num)
-            
+        for (let j = 0; j < playerInfo.length - 1; j++) {          
             if (playerInfo[j].handNumber < playerInfo[j+1].handNumber) {
                 let tmp = playerInfo[j];
                 playerInfo[j] = playerInfo[j + 1];
@@ -1124,7 +900,7 @@ module.exports = {
     tieBreakHighCard: tieBreakHighCard,
     tieBreakTwoPair: tieBreakTwoPair,
     tieBreak234OfAKind: tieBreak234OfAKind,
-    tieBreakThreeOfAKind: tieBreakThreeOfAKind,
+    // tieBreakThreeOfAKind: tieBreakThreeOfAKind,
     bubbleSort: bubbleSort
     // a1: a1
 }

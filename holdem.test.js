@@ -869,13 +869,6 @@ test('tieBreaker Pair', () => {
 })
 
 
-
-
-
-
-
-
-
 test('tieBreaker - Three of a kind', () => {
     expect(holdem.tieBreak234OfAKind(['T', 'T', 'T', 'K', 2], ['T', 'T', 'T', 'Q', 2], 3 )).toStrictEqual([1, 0]) 
 })
@@ -897,9 +890,6 @@ test('tieBreaker - Three of a kind', () => {
 })
 
 
-
-
-
 test('tieBreaker - Four of a kind', () => {
     expect(holdem.tieBreak234OfAKind(['T', 'T', 'T', 'T', 2], ['T', 'T', 'T', 'T', 5], 4 )).toStrictEqual([0, 1]) 
 })
@@ -919,51 +909,75 @@ test('tieBreaker - Four of a kind', () => {
 
 
 
-test('tieBreaker - Three of a kind', () => {
-    expect(holdem.tieBreakThreeOfAKind([2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'] )).toStrictEqual([0, 1]) 
-})
+// test('tieBreaker - Three of a kind', () => {
+//     expect(holdem.tieBreakThreeOfAKind([2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'] )).toStrictEqual([0, 1]) 
+// })
 
-test('tieBreaker - Three of a kind', () => {
-    expect(holdem.tieBreakThreeOfAKind([2, 7, 'A', 'A', 'A'], [3, 5, 'T', 'T', 'T'] )).toStrictEqual([1, 0]) 
-})
+// test('tieBreaker - Three of a kind', () => {
+//     expect(holdem.tieBreakThreeOfAKind([2, 7, 'A', 'A', 'A'], [3, 5, 'T', 'T', 'T'] )).toStrictEqual([1, 0]) 
+// })
 
-test('tieBreaker - Three of a kind', () => {
-    expect(holdem.tieBreakThreeOfAKind([2, 7, 7, 7, 8], [3, 5, 8, 8, 8] )).toStrictEqual([0, 1]) 
-})
+// test('tieBreaker - Three of a kind', () => {
+//     expect(holdem.tieBreakThreeOfAKind([2, 7, 7, 7, 8], [3, 5, 8, 8, 8] )).toStrictEqual([0, 1]) 
+// })
 
 
-test('tieBreaker - Three of a kind', () => {
-    expect(holdem.tieBreakThreeOfAKind(['K', 'Q', 'K', 'K', 'A'], [3, 5, 'A', 'A', 'A'] )).toStrictEqual([0, 1]) 
+// test('tieBreaker - Three of a kind', () => {
+//     expect(holdem.tieBreakThreeOfAKind(['K', 'Q', 'K', 'K', 'A'], [3, 5, 'A', 'A', 'A'] )).toStrictEqual([0, 1]) 
 
-})
+// })
+
+
+// test('Bubble Sort - Three of a kind', () => {
+//     expect(holdem.bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind ))
+//     .toStrictEqual([[2, 7, 'A', 'A', 'A'],['K', 'Q', 'K', 'K', 'A'],[2, 7, 'T', 'T', 'T'], [2, 7, 9, 9, 9]]) 
+// })
+
+// test('Bubble Sort - Three of a kind', () => {
+//     expect(holdem.bubbleSort([[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind ))
+//     .toStrictEqual([[2, 7, 'A', 'A', 'A'],['K', 'Q', 'K', 'K', 'A']]) 
+// })
+
+// test('Bubble Sort - Three of a kind', () => {
+//     expect(holdem.bubbleSort([[2, 7, 'T', 'T', 'T'],['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind ))
+//     .toStrictEqual([['K', 'Q', 'K', 'K', 'A'],[2, 7, 'T', 'T', 'T']]) 
+// })
+
+// test('Bubble Sort - Three of a kind', () => {
+//     expect(holdem.bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A']], tieBreakThreeOfAKind ))
+//     .toStrictEqual([[2, 7, 'A', 'A', 'A'],[2, 7, 'T', 'T', 'T'], [2, 7, 9, 9, 9]]) 
+// })
+
+// test('Bubble Sort - Pair', () => {
+//     expect(holdem.bubbleSort([[2, 7, 4, 9, 9], [2, 7, 5, 'T', 'T'],[2, 7, 9, 'A', 'A']], tieBreak234OfAKind ))
+//     .toStrictEqual([[2, 7, 9, 'A', 'A'], [2, 7, 5, 'T', 'T'], [2, 7, 4, 9, 9]]) 
+// })
 
 
 test('Bubble Sort - Three of a kind', () => {
-    expect(holdem.bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind ))
+    expect(holdem.bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreak234OfAKind, 3 ))
     .toStrictEqual([[2, 7, 'A', 'A', 'A'],['K', 'Q', 'K', 'K', 'A'],[2, 7, 'T', 'T', 'T'], [2, 7, 9, 9, 9]]) 
 })
 
 test('Bubble Sort - Three of a kind', () => {
-    expect(holdem.bubbleSort([[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind ))
+    expect(holdem.bubbleSort([[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreak234OfAKind, 3 ))
     .toStrictEqual([[2, 7, 'A', 'A', 'A'],['K', 'Q', 'K', 'K', 'A']]) 
 })
 
 test('Bubble Sort - Three of a kind', () => {
-    expect(holdem.bubbleSort([[2, 7, 'T', 'T', 'T'],['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind ))
+    expect(holdem.bubbleSort([[2, 7, 'T', 'T', 'T'],['K', 'Q', 'K', 'K', 'A']], tieBreak234OfAKind, 3 ))
     .toStrictEqual([['K', 'Q', 'K', 'K', 'A'],[2, 7, 'T', 'T', 'T']]) 
 })
 
 test('Bubble Sort - Three of a kind', () => {
-    expect(holdem.bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A']], tieBreakThreeOfAKind ))
+    expect(holdem.bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A']], tieBreak234OfAKind, 3 ))
     .toStrictEqual([[2, 7, 'A', 'A', 'A'],[2, 7, 'T', 'T', 'T'], [2, 7, 9, 9, 9]]) 
 })
 
 test('Bubble Sort - Pair', () => {
-    expect(holdem.bubbleSort([[2, 7, 4, 9, 9], [2, 7, 5, 'T', 'T'],[2, 7, 9, 'A', 'A']], tieBreak234OfAKind ))
+    expect(holdem.bubbleSort([[2, 7, 4, 9, 9], [2, 7, 5, 'T', 'T'],[2, 7, 9, 'A', 'A']], tieBreak234OfAKind, 3 ))
     .toStrictEqual([[2, 7, 9, 'A', 'A'], [2, 7, 5, 'T', 'T'], [2, 7, 4, 9, 9]]) 
 })
-
-
 
 
 
