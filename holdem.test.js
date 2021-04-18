@@ -1,5 +1,5 @@
 const { expect } = require('@jest/globals')
-const { tieBreakThreeOfAKind } = require('./holdem')
+const { tieBreakThreeOfAKind, tieBreak234OfAKind } = require('./holdem')
 const holdem = require('./holdem')
 
 test('Check all suits are same', () => {
@@ -937,8 +937,34 @@ test('tieBreaker - Three of a kind', () => {
 
 })
 
+
 test('Bubble Sort - Three of a kind', () => {
     expect(holdem.bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind ))
-    .toStrictEqual([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],['K', 'Q', 'K', 'K', 'A'], [2, 7, 'A', 'A', 'A']]) 
-
+    .toStrictEqual([[2, 7, 'A', 'A', 'A'],['K', 'Q', 'K', 'K', 'A'],[2, 7, 'T', 'T', 'T'], [2, 7, 9, 9, 9]]) 
 })
+
+test('Bubble Sort - Three of a kind', () => {
+    expect(holdem.bubbleSort([[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind ))
+    .toStrictEqual([[2, 7, 'A', 'A', 'A'],['K', 'Q', 'K', 'K', 'A']]) 
+})
+
+test('Bubble Sort - Three of a kind', () => {
+    expect(holdem.bubbleSort([[2, 7, 'T', 'T', 'T'],['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind ))
+    .toStrictEqual([['K', 'Q', 'K', 'K', 'A'],[2, 7, 'T', 'T', 'T']]) 
+})
+
+test('Bubble Sort - Three of a kind', () => {
+    expect(holdem.bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A']], tieBreakThreeOfAKind ))
+    .toStrictEqual([[2, 7, 'A', 'A', 'A'],[2, 7, 'T', 'T', 'T'], [2, 7, 9, 9, 9]]) 
+})
+
+test('Bubble Sort - Pair', () => {
+    expect(holdem.bubbleSort([[2, 7, 4, 9, 9], [2, 7, 5, 'T', 'T'],[2, 7, 9, 'A', 'A']], tieBreak234OfAKind ))
+    .toStrictEqual([[2, 7, 9, 'A', 'A'], [2, 7, 5, 'T', 'T'], [2, 7, 4, 9, 9]]) 
+})
+
+
+
+
+
+

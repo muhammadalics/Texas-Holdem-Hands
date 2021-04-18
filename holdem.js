@@ -640,6 +640,7 @@ var areSameSets = (set1, set2) => {
 }
 
 // https://www.pokerstarsschool.com/lessons/poker-hand-rankings/
+//dont use. use tieBreakmultiple instead
 var tieBreakHighCard = (faceSet1, faceSet2) => {
     // Check if cards are identical outside!!!!    
     let set1 = [...faceSet1];
@@ -661,8 +662,9 @@ var tieBreakHighCard = (faceSet1, faceSet2) => {
 }
 
 //Used for breaking tie for several hands: High Card, Straight, Flush, Full house, Straight Flush
-var tieBreakMultiple = (faceSet1, faceSet2) => {
-    // Check if cards are identical outside!!!!    
+var tieBreakMultiple = (faceSet1, faceSet2, num) => {
+    // Check if cards are identical outside!!!!
+    //num does nothing. dont remove. its there to reduce code size when calling bubble sort.    
     let set1 = [...faceSet1];
     let set2 = [...faceSet2];
 
@@ -682,8 +684,9 @@ var tieBreakMultiple = (faceSet1, faceSet2) => {
 }
 
 
-var tieBreakThreeOfAKind = (faceSet1, faceSet2) => {
-    // Check if cards are identical outside!!!!    
+var tieBreakThreeOfAKind = (faceSet1, faceSet2, num) => {
+    // Check if cards are identical outside!!!!
+    //num does nothing. dont remove. its there to reduce code size when calling bubble sort.        
     let set1 = [...faceSet1];
     let set2 = [...faceSet2];
 
@@ -693,7 +696,7 @@ var tieBreakThreeOfAKind = (faceSet1, faceSet2) => {
     // set1 = replaceAceByFourteen(set1);
     // set2 = replaceAceByFourteen(set2);
 
-    set1 = faceTranslator(faceToNumber, set1) 
+    set1 = faceTranslator(faceToNumber, set1)
     set2 = faceTranslator(faceToNumber, set2)
 
     let count1 = isCountPresent(set1, 3)[1];
@@ -772,7 +775,8 @@ var tieBreakPair = (faceSet1, faceSet2) => {
 
 
 
-var tieBreakTwoPair = (faceSet1, faceSet2) => {
+var tieBreakTwoPair = (faceSet1, faceSet2, num) => {
+    //num does nothing. dont remove. its there to reduce code size when calling bubble sort.    
     // Check if cards are identical outside!!!!    
     let set1 = [...faceSet1];
     let set2 = [...faceSet2];
@@ -880,19 +884,19 @@ var tieBreak234OfAKind = (faceSet1, faceSet2, num) => {
 
 
 
-let bubbleSort = (faces, tieBreakFn) => {
-    
+let bubbleSort = (faces, tieBreakFn, num) => {
+
     let sortedFaces = [...faces]
-    console.log('faces to be sorted')
-    console.log(sortedFaces)
+    // console.log('faces to be sorted')
+    // console.log(sortedFaces)
 
-    for (let i = 0; i < sortedFaces.length-1; i++) {
-        for (let j = 0; j < sortedFaces.length-1; j++) {
-            console.log('inside for loop')
-            console.log(sortedFaces[j], sortedFaces[j+1])
+    for (let i = 0; i < sortedFaces.length - 1; i++) {
+        for (let j = 0; j < sortedFaces.length - 1; j++) {
+            // console.log('inside for loop')
+            // console.log(sortedFaces[j], sortedFaces[j+1])
 
-            let ranking = tieBreakFn(sortedFaces[j], sortedFaces[j+1])
-            if (ranking[0] > ranking[1]) {
+            let ranking = tieBreakFn(sortedFaces[j], sortedFaces[j + 1], num)
+            if (ranking[0] < ranking[1]) {
                 let tmp = sortedFaces[j];
                 sortedFaces[j] = sortedFaces[j + 1];
                 sortedFaces[j + 1] = tmp;
@@ -902,13 +906,74 @@ let bubbleSort = (faces, tieBreakFn) => {
     return sortedFaces;
 };
 
+//returns the hand numbers of all the hands that have ties.
+var tieChecker = (playerInfo) => {
+
+    // Example:
+    // KS AD 3H 7C TD
+    // John 9H 7S
+    // Sam AC KH
+    // Becky JD QC
+    // Ted 3D 8S
+
+    let ties = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 0,
+    };
+    playerInfo.forEach(player => {
+        ties[player.handNumber] += 1
+    })
+
+    let tieHands = [];
+
+    Object.values(ties).forEach(num => {
+        if (ties[num] > 1) {
+            tieHands.push(num)
+        }
+    })
+
+    return tieHands;
+}
 
 
 
 
 
+let bubbleSortRankings = (playerInfo) => {
+
+    for (let i = 0; i < playerInfo.length - 1; i++) {
+        for (let j = 0; j < playerInfo.length - 1; j++) {
+            // console.log('inside for loop')
+            // console.log(sortedFaces[j], sortedFaces[j+1])
+
+            // let ranking = tieBreakFn(sortedFaces[j], sortedFaces[j + 1], num)
+            
+            if (playerInfo[j].handNumber < playerInfo[j+1].handNumber) {
+                let tmp = playerInfo[j];
+                playerInfo[j] = playerInfo[j + 1];
+                playerInfo[j + 1] = tmp;
+            }
+        }
+    }
+    return playerInfo;
+};
 
 
+let outputResults = (playerInfo) => {
+
+    for (let i=0; i < playerInfo.length; i++){
+        console.log(i+1, ' ', playerInfo[i].name, ' ',  playerInfo[i].description)
+    }
+
+}
 
 
 
@@ -926,7 +991,23 @@ let bubbleSort = (faces, tieBreakFn) => {
         // describeHand(1, ['C', 'D', 'D', 'S', 'H'], ['A', 'Q', 'K', 'J', 'T'])
         // tieBreakTwoPair(['Q', 'Q', 7, 7, 3], ['Q', 'Q', 7, 7, 1]);
         // tieBreak234OfAKind(['A', 'A', 'Q', 'A', 'K'], ['A', 'A', 'T', 'A', 'Q'], 3)
-        bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind )
+        // bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind )
+
+        // Straight, Flush, Full house, Straight Flush
+
+        var fnNames = {
+            1: [tieBreakMultiple, undefined],
+            2: [tieBreak234OfAKind, 2],
+            3: [tieBreakTwoPair, undefined],
+            4: [tieBreak234OfAKind, 3],
+            5: [tieBreakMultiple, undefined],
+            6: [tieBreakMultiple,undefined],
+            7: [tieBreakMultiple,undefined],
+            8: [tieBreak234OfAKind, 4],
+            9: [tieBreakMultiple,undefined],
+            10: [tieBreakMultiple,undefined], // check please!!!!!!!!!!!!!!!!!!!
+
+        }
 
         response = await readUserInput();
 
@@ -935,7 +1016,8 @@ let bubbleSort = (faces, tieBreakFn) => {
         var playerSuitsAndFaces;
         [communitySuits, communityFaces, playerSuitsAndFaces] = parseInput(response);
 
-        var playerHandName = {}
+        // var playerHand = {}
+        var playerInfo = []
         console.log('hello')
         console.log(playerSuitsAndFaces)
 
@@ -944,20 +1026,69 @@ let bubbleSort = (faces, tieBreakFn) => {
         Object.keys(playerSuitsAndFaces).map(name => {
             // console.log('inside map function')
             // console.log(name);
-            // console.log(playerHandName);
+            // console.log(playerHand);
             // console.log(playerSuitsAndFaces[1]);
             // console.log(playerSuitsAndFaces[0]);
             // console.log(communityFaces);
             // console.log(communitySuits);
+            let playerHand = {}
 
-            playerHandName[name] = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
+            let handInfo = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces)
 
-            console.log(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
+            // playerHand[name] = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
+
+            playerHand['name'] = name;
+            playerHand['handNumber'] = handInfo[0]
+            playerHand['suits'] = handInfo[1]
+            playerHand['faces'] = handInfo[2]
+            playerHand['description'] = describeHand(handInfo[0], handInfo[1], handInfo[2])
+
+            playerInfo.push(playerHand)
+
+            let tieHands = tieChecker(playerInfo)
+
+            tieHands.forEach(handnum => {
+                let tieNames = [];
+                let tieFaces = [];
+                for (let index = 0; index < playerInfo.length; index++) {
+                    if(playerInfo[index].handNumber == handnum){
+                        tieNames.push(playerInfo[index].name)
+                        tieFaces.push(playerInfo[index].faces)
+                    }                   
+                }
+
+                let rankedfaces = bubbleSort(tieFaces, fnNames[handnum][0],fnNames[handnum][1]);
+
+                console.log('ranked faces')
+                console.log(rankedfaces)
+
+                for(let i=0; i < rankedfaces.length; i++){
+                    for(let j=0; j < tieFaces.length; j++){
+                        if(areSameSets(rankedfaces[i], tieFaces[j])){                           
+                            playerInfo.forEach(player => {
+                                if (player.name == tieNames[j]){
+                                    player.handNumber -= i *0.1 //this is correct
+                                }
+                            })
+                            
+                        }
+
+                    }
+                }
+
+            })
+
+            // console.log(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
 
 
         });
 
-        console.log(playerHandName);
+        // console.log(playerInfo);
+        // console.log(tieChecker(playerInfo))
+
+        finalRankings = bubbleSortRankings(playerInfo);
+        outputResults(finalRankings)
+
 
     })();
 
@@ -993,7 +1124,7 @@ module.exports = {
     tieBreakHighCard: tieBreakHighCard,
     tieBreakTwoPair: tieBreakTwoPair,
     tieBreak234OfAKind: tieBreak234OfAKind,
-    tieBreakThreeOfAKind:tieBreakThreeOfAKind,
+    tieBreakThreeOfAKind: tieBreakThreeOfAKind,
     bubbleSort: bubbleSort
     // a1: a1
 }
