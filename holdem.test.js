@@ -1,4 +1,5 @@
 const { expect } = require('@jest/globals')
+const { tieBreakThreeOfAKind } = require('./holdem')
 const holdem = require('./holdem')
 
 test('Check all suits are same', () => {
@@ -826,4 +827,118 @@ test('tieBreakerHighCard', () => {
 
 test('tieBreakerHighCard', () => {
     expect(holdem.tieBreakHighCard(['Q', 4, 7, 8, 3], ['Q', 4, 7, 8, 2])).toStrictEqual([1, 0]) 
+})
+
+test('tieBreak Two Pair', () => {
+    expect(holdem.tieBreakTwoPair(['Q', 'Q', 7, 7, 3], ['Q', 'Q', 7, 7, 1])).toStrictEqual([1, 0]) 
+})
+
+test('tieBreak Two Pair', () => {
+    expect(holdem.tieBreakTwoPair(['K', 'K', 7, 7, 3], ['Q', 'Q', 7, 7, 1])).toStrictEqual([1, 0]) 
+})
+
+test('tieBreak Two Pair', () => {
+    expect(holdem.tieBreakTwoPair(['K', 'K', 'Q', 'Q', 3], ['A', 'A', 2, 2, 1])).toStrictEqual([0, 1]) 
+})
+
+
+
+
+
+
+
+
+test('tieBreaker Pair', () => {
+    expect(holdem.tieBreak234OfAKind(['T', 'T', 7, 'K', 2], ['T', 'T', 7, 'Q', 2], 2 )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreaker Pair', () => {
+    expect(holdem.tieBreak234OfAKind(['K', 'K', 7, 'K', 2], ['K', 'K', 7, 'A', 2], 2 )).toStrictEqual([0, 1]) 
+})
+
+test('tieBreaker Pair', () => {
+    expect(holdem.tieBreak234OfAKind(['A', 'A', 7, 'K', 2], ['T', 'T', 7, 'Q', 2], 2 )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreaker Pair', () => {
+    expect(holdem.tieBreak234OfAKind(['Q', 'Q', 7, 'K', 2], ['T', 'T', 7, 'Q', 2], 2 )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreaker Pair', () => {
+    expect(holdem.tieBreak234OfAKind(['Q', 'Q', 7, 'K', 2], ['J', 'J', 7, 'Q', 2], 2 )).toStrictEqual([1, 0]) 
+})
+
+
+
+
+
+
+
+
+
+test('tieBreaker - Three of a kind', () => {
+    expect(holdem.tieBreak234OfAKind(['T', 'T', 'T', 'K', 2], ['T', 'T', 'T', 'Q', 2], 3 )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreaker - Three of a kind', () => {
+    expect(holdem.tieBreak234OfAKind(['K', 'K', 7, 'K', 2], ['K', 'K', 7, 'K', 4], 3 )).toStrictEqual([0, 1]) 
+})
+
+test('tieBreaker - Three of a kind', () => {
+    expect(holdem.tieBreak234OfAKind(['A', 'A', 7, 'A', 2], ['T', 'T', 7, 'T', 2], 3 )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreaker - Three of a kind', () => {
+    expect(holdem.tieBreak234OfAKind(['Q', 'Q', 7, 'Q', 2], ['Q', 'Q', 'A', 'Q', 2], 3 )).toStrictEqual([0, 1]) 
+})
+
+test('tieBreaker - Three of a kind', () => {
+    expect(holdem.tieBreak234OfAKind(['A', 'A', 'Q', 'A', 'K'], ['A', 'A', 'T', 'A', 'Q'], 3 )).toStrictEqual([1, 0]) 
+})
+
+
+
+
+
+test('tieBreaker - Four of a kind', () => {
+    expect(holdem.tieBreak234OfAKind(['T', 'T', 'T', 'T', 2], ['T', 'T', 'T', 'T', 5], 4 )).toStrictEqual([0, 1]) 
+})
+
+test('tieBreaker - Four of a kind', () => {
+    expect(holdem.tieBreak234OfAKind(['K', 'K', 'K', 'K', 2], ['Q', 'Q', 'Q', 'Q', 4], 4 )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreaker - Four of a kind', () => {
+    expect(holdem.tieBreak234OfAKind(['A', 'A', 7, 'A', 'A'], ['T', 'T', 7, 'T', 'T'], 4 )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreaker - Four of a kind', () => {
+    expect(holdem.tieBreak234OfAKind(['Q', 'Q', 'K', 'Q', 'Q'], ['Q', 'Q', 'A', 'Q', 'Q'], 4 )).toStrictEqual([0, 1]) 
+})
+
+
+
+
+test('tieBreaker - Three of a kind', () => {
+    expect(holdem.tieBreakThreeOfAKind([2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'] )).toStrictEqual([0, 1]) 
+})
+
+test('tieBreaker - Three of a kind', () => {
+    expect(holdem.tieBreakThreeOfAKind([2, 7, 'A', 'A', 'A'], [3, 5, 'T', 'T', 'T'] )).toStrictEqual([1, 0]) 
+})
+
+test('tieBreaker - Three of a kind', () => {
+    expect(holdem.tieBreakThreeOfAKind([2, 7, 7, 7, 8], [3, 5, 8, 8, 8] )).toStrictEqual([0, 1]) 
+})
+
+
+test('tieBreaker - Three of a kind', () => {
+    expect(holdem.tieBreakThreeOfAKind(['K', 'Q', 'K', 'K', 'A'], [3, 5, 'A', 'A', 'A'] )).toStrictEqual([0, 1]) 
+
+})
+
+test('Bubble Sort - Three of a kind', () => {
+    expect(holdem.bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind ))
+    .toStrictEqual([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],['K', 'Q', 'K', 'K', 'A'], [2, 7, 'A', 'A', 'A']]) 
+
 })
