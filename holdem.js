@@ -51,10 +51,6 @@ var parseInput = (userInput) => {
 
 }
 
-var areSameSets = (set1, set2) => {
-    return set1.every((val, index) => val === set2[index]);
-}
-
 
     ; (async () => {
         // faceTranslator(numberToFace, [12, 11, 13, 14, 10])
@@ -116,6 +112,10 @@ var areSameSets = (set1, set2) => {
 
             let tieHands = tieChecker(playerInfo)
 
+
+
+
+
             tieHands.forEach(handnum => {
                 let tieNames = [];
                 let tieFaces = [];
@@ -123,8 +123,11 @@ var areSameSets = (set1, set2) => {
                     if (playerInfo[index].handNumber == handnum) {
                         tieNames.push(playerInfo[index].name)
                         tieFaces.push(playerInfo[index].faces)
+
                     }
+
                 }
+
 
                 let rankedfaces = bubbleSort(tieFaces, fnNames[handnum][0], fnNames[handnum][1]);
 
@@ -133,20 +136,37 @@ var areSameSets = (set1, set2) => {
 
                 for (let i = 0; i < rankedfaces.length; i++) {
                     for (let j = 0; j < tieFaces.length; j++) {
-                        if (areSameSets(rankedfaces[i], tieFaces[j])) {
+                        if (areArraysEqual(rankedfaces[i], tieFaces[j])) {
                             playerInfo.forEach(player => {
                                 if (player.name == tieNames[j]) {
-                                    player.handNumber -= i * 0.1 //this is correct
+                                    player.handNumber -= i * 0.1
                                 }
                             })
-
                         }
-
                     }
                 }
-
             })
         });
+
+        // identify the players who have exactly same cards (faces)
+        exactequal = []
+        for (let i = 0; i < playerInfo.length; i++) {
+            for (let j = 0; j < playerInfo.length; j++) {
+                if (areArraysEqual(playerInfo[i].faces, playerInfo[j].faces) && playerInfo[i].name != playerInfo[j].name ){
+                    
+                    exactequal.push(playerInfo[i].name);
+                    exactequal.push(playerInfo[j].name);
+                }
+            
+            }
+        }
+        // console.log(playerInfo);
+
+        playerInfo.forEach(player => {
+            if (exactequal.includes(player.name)){
+                player.name += '(tie)'
+            }
+        })
 
         finalRankings = bubbleSortRankings(playerInfo);
         outputResults(finalRankings)

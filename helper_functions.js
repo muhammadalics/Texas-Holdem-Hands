@@ -76,7 +76,7 @@ let bubbleSortRankings = (playerInfo) => {
 let outputResults = (playerInfo) => {
 
     for (let i=0; i < playerInfo.length; i++){
-        console.log(i+1, ' ', playerInfo[i].name, ' ',  playerInfo[i].description)
+        console.log(i+1, playerInfo[i].name, playerInfo[i].description)
     }
 
 }
