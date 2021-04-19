@@ -1,5 +1,5 @@
 # Texas-Holdem-Hands
-This program identifies the hands and ranks the players by hands.
+This app identifies the Texas Hold'em hands and ranks the players by hands.
 
 ## Requirements
 
@@ -28,11 +28,11 @@ Enter the names and cards as follows:
       Sam AC KH
       Becky JD QC
 
-Hit CTRL+D to process the input and see results.
+After entering the last line of input, hit Enter. Then, hit CTRL+D to process the input and see results.
 
 ![Run](https://github.com/muhammadalics/Texas-Holdem-Hands/blob/main/gifs/run.gif)
 
 ## Running the unit tests
-    $ node holdem.test.js
+    $ npm test
 
 ![Tests](https://github.com/muhammadalics/Texas-Holdem-Hands/blob/main/gifs/test.gif)
