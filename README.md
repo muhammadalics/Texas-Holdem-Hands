@@ -21,5 +21,15 @@ You can install nodejs and npm easily with apt install, just run the following c
 ## Running the Project
     $ node holdem.js
 
+Enter the names and cards as follows:
+
+    $ KS AD 3H 7C TD
+      John 9H 7S
+      Sam AC KH
+      Becky JD QC
+
+Hit CTRL+D to process the input and see results.
+
+
 ## Running the unit tests
     $ node holdem.test.js

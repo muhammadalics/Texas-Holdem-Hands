@@ -11,7 +11,10 @@ const { describeHand } = require('./describe_hand');
 
 const { getHand } = require('./identify_hand')
 
+const { checkerrors } = require('./errorhandler');
+
 let readline = require('readline');
+const errorhandler = require("./errorhandler");
 
 var readUserInput = () => {
     let input = [];
@@ -74,12 +77,29 @@ var parseInput = (userInput) => {
             // no 10 because royal flush is unique
         }
 
-        response = await readUserInput();
+        try {
+            response = await readUserInput();
+        }
+        catch(e){
+            throw e;
+        }
+        finally {
+            console.log('error');
+        }
 
         var communityFaces;
         var communitySuits;
         var playerSuitsAndFaces;
-        [communitySuits, communityFaces, playerSuitsAndFaces] = parseInput(response);
+        [communityFaces, communitySuits, playerSuitsAndFaces] = parseInput(response);
+
+        console.log('community suits')
+        console.log(communitySuits)
+        console.log('community faces')
+        console.log(communityFaces)
+        console.log('player suits and faces')
+        console.log(playerSuitsAndFaces)
+
+        checkerrors(communitySuits, communityFaces, playerSuitsAndFaces)
 
         // var playerHand = {}
         var playerInfo = []
@@ -98,7 +118,7 @@ var parseInput = (userInput) => {
             // console.log(communitySuits);
             let playerHand = {}
 
-            let handInfo = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces)
+            let handInfo = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communityFaces, communitySuits)
 
             // playerHand[name] = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
 
@@ -152,23 +172,24 @@ var parseInput = (userInput) => {
         exactequal = []
         for (let i = 0; i < playerInfo.length; i++) {
             for (let j = 0; j < playerInfo.length; j++) {
-                if (areArraysEqual(playerInfo[i].faces, playerInfo[j].faces) && playerInfo[i].name != playerInfo[j].name ){
-                    
+                if (areArraysEqual(playerInfo[i].faces, playerInfo[j].faces) && playerInfo[i].name != playerInfo[j].name) {
+
                     exactequal.push(playerInfo[i].name);
                     exactequal.push(playerInfo[j].name);
                 }
-            
+
             }
         }
         // console.log(playerInfo);
 
         playerInfo.forEach(player => {
-            if (exactequal.includes(player.name)){
+            if (exactequal.includes(player.name)) {
                 player.name += '(tie)'
             }
         })
 
         finalRankings = bubbleSortRankings(playerInfo);
         outputResults(finalRankings)
-    })();
+    })().then(console.log(''))
+    .catch(console.error);
 
