@@ -51,7 +51,7 @@ var describeHand = (handValue, handSuit, handFace) => {
     else if (handValue == 2) {
         let count = isCountPresent(handFace, 2)[1];
         let key = findKeysbyValue(count, 2)[0] //find the face on pair        
-        description = "Pair " + key;
+        description = "Pair " + wordsForFaces[key];
     }
 
     else if (handValue == 3) {

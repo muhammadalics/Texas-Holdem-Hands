@@ -9,14 +9,12 @@ var checkerrors = (communitySuits, communityFaces, playerSuitsAndFaces) => {
 
     communityFaces.forEach(element => {
         if (!possibleFaces.includes(element)){
-            console.log(element)
             throw 'Error:\nCommunity Cards: Face character is invalid.'
         }
     })
 
     communitySuits.forEach(element => {
         if (!possibleSuits.includes(element)){
-            console.log(element)
             throw 'Error:\nCommunity Cards: Suit character is invalid.'
         }
     })
@@ -33,8 +31,6 @@ var checkerrors = (communitySuits, communityFaces, playerSuitsAndFaces) => {
     else {
         numPlayers = 0;
         Object.values(playerSuitsAndFaces).forEach(element => {
-            console.log('element')
-            console.log(element)
             if (Object.values(element)[0].length != 2) {
                 throw 'Error:\nPlayers should have exactly 2 cards'
             }
@@ -42,14 +38,12 @@ var checkerrors = (communitySuits, communityFaces, playerSuitsAndFaces) => {
 
             element[0].forEach(element => {
                 if (!possibleSuits.includes(element)){
-                    console.log(element)
                     throw 'Error:\nPlayer Cards: Suit character is invalid.'
                 }
             })
 
             element[1].forEach(element => {
                 if (!possibleFaces.includes(element)){
-                    console.log(element)
                     throw 'Error:\nPlayer Cards: Face character is invalid.'
                 }
             })

@@ -54,15 +54,7 @@ var parseInput = (userInput) => {
 
 }
 
-
     ; (async () => {
-        // faceTranslator(numberToFace, [12, 11, 13, 14, 10])
-        // describeHand(1, ['C', 'D', 'D', 'S', 'H'], ['A', 'Q', 'K', 'J', 'T'])
-        // tieBreakTwoPair(['Q', 'Q', 7, 7, 3], ['Q', 'Q', 7, 7, 1]);
-        // tieBreak234OfAKind(['A', 'A', 'Q', 'A', 'K'], ['A', 'A', 'T', 'A', 'Q'], 3)
-        // bubbleSort([[2, 7, 9, 9, 9], [2, 7, 'T', 'T', 'T'],[2, 7, 'A', 'A', 'A'], ['K', 'Q', 'K', 'K', 'A']], tieBreakThreeOfAKind )
-
-        // Straight, Flush, Full house, Straight Flush
 
         var fnNames = {
             1: [tieBreakMultiple, undefined],
@@ -84,7 +76,7 @@ var parseInput = (userInput) => {
             throw e;
         }
         finally {
-            console.log('error');
+            console.log('');
         }
 
         var communityFaces;
@@ -92,36 +84,16 @@ var parseInput = (userInput) => {
         var playerSuitsAndFaces;
         [communityFaces, communitySuits, playerSuitsAndFaces] = parseInput(response);
 
-        console.log('community suits')
-        console.log(communitySuits)
-        console.log('community faces')
-        console.log(communityFaces)
-        console.log('player suits and faces')
-        console.log(playerSuitsAndFaces)
-
         checkerrors(communitySuits, communityFaces, playerSuitsAndFaces)
 
-        // var playerHand = {}
         var playerInfo = []
-        // console.log('hello')
-        // console.log(playerSuitsAndFaces)
-
-        // console.log(Object.keys(playerSuitsAndFaces));
 
         Object.keys(playerSuitsAndFaces).map(name => {
-            // console.log('inside map function')
-            // console.log(name);
-            // console.log(playerHand);
-            // console.log(playerSuitsAndFaces[1]);
-            // console.log(playerSuitsAndFaces[0]);
-            // console.log(communityFaces);
-            // console.log(communitySuits);
+
             let playerHand = {}
 
             let handInfo = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communityFaces, communitySuits)
-
-            // playerHand[name] = getHand(playerSuitsAndFaces[name][1], playerSuitsAndFaces[name][0], communitySuits, communityFaces);
-
+           
             playerHand['name'] = name;
             playerHand['handNumber'] = handInfo[0]
             playerHand['suits'] = handInfo[1]
@@ -131,10 +103,6 @@ var parseInput = (userInput) => {
             playerInfo.push(playerHand)
 
             let tieHands = tieChecker(playerInfo)
-
-
-
-
 
             tieHands.forEach(handnum => {
                 let tieNames = [];
@@ -150,9 +118,6 @@ var parseInput = (userInput) => {
 
 
                 let rankedfaces = bubbleSort(tieFaces, fnNames[handnum][0], fnNames[handnum][1]);
-
-                // console.log('ranked faces')
-                // console.log(rankedfaces)
 
                 for (let i = 0; i < rankedfaces.length; i++) {
                     for (let j = 0; j < tieFaces.length; j++) {
@@ -180,7 +145,6 @@ var parseInput = (userInput) => {
 
             }
         }
-        // console.log(playerInfo);
 
         playerInfo.forEach(player => {
             if (exactequal.includes(player.name)) {

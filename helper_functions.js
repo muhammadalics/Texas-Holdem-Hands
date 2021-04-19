@@ -50,7 +50,7 @@ var areArraysEqual = (arr1, arr2) => {
     if (arr1.length == arr2.length) {
         for (index = 0; index < arr1.length; index++) {
             if (arr1[index] != arr2[index]) {
-                // console.log(arr1[index] != arr2[index])
+                
                 return false;
             }
         }
@@ -75,7 +75,8 @@ let bubbleSortRankings = (playerInfo) => {
 
 let outputResults = (playerInfo) => {
 
-    for (let i=0; i < playerInfo.length; i++){
+    console.log('*** Results ***')
+    for (let i=0; i < playerInfo.length; i++){       
         console.log(i+1, playerInfo[i].name, playerInfo[i].description)
     }
 

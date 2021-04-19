@@ -1,7 +1,4 @@
 const { expect, test } = require('@jest/globals')
-// const { tieBreakThreeOfAKind, tieBreak234OfAKind } = require('./)
-// const = require('./)
-// const helper_functions = require('./helper_functions');
 
 const { isPairPresent, isThreeOfAKind, isThreeOfAKindPresent, isFourOfAKindPresent, twoPairsPresent, 
     isRoyalFlush, isStraightFlush, isFullHouse,  isFlush, isStraight, isPair,
@@ -739,7 +736,7 @@ test('All keys found by value ?', () => {
 })
 
 test('Pair hand description', () => {
-    expect(describeHand(2, ['C', 'D', 'D', 'D', 'S'], [2, 2, 'K', 9, 'T'])).toBe('Pair 2') //pair
+    expect(describeHand(2, ['C', 'D', 'D', 'D', 'S'], [2, 2, 'K', 9, 'T'])).toBe('Pair Two') //pair
 })
 
 test('Two Pairs - hand description?', () => {
@@ -806,41 +803,6 @@ test('High card - hand description?', () => {
     expect(describeHand(1, ['C', 'H', 'D', 'C', 'S'], ['T', 4, 7, 'K', 2] )).toBe('High card - Ten, Four, Seven, King, Two') //High card
 })
 
-// test('tieBreakerPair', () => {
-//     expect(tieBreakPair(['T', 'T', 7, 'K', 2], ['T', 'T', 7, 'Q', 2] )).toStrictEqual([1, 0]) 
-// })
-
-// test('tieBreakerPair', () => {
-//     expect(tieBreakPair(['K', 'K', 7, 'K', 2], ['K', 'K', 7, 'A', 2] )).toStrictEqual([0, 1]) 
-// })
-
-// test('tieBreakerPair', () => {
-//     expect(tieBreakPair(['A', 'A', 7, 'K', 2], ['T', 'T', 7, 'Q', 2] )).toStrictEqual([1, 0]) 
-// })
-
-// test('tieBreakerPair', () => {
-//     expect(tieBreakPair(['Q', 'Q', 7, 'K', 2], ['T', 'T', 7, 'Q', 2] )).toStrictEqual([1, 0]) 
-// })
-
-// test('tieBreakerPair', () => {
-//     expect(tieBreakPair(['Q', 'Q', 7, 'K', 2], ['J', 'J', 7, 'Q', 2] )).toStrictEqual([1, 0]) 
-// })
-
-// test('tieBreakerHighCard', () => {
-//     expect(tieBreakHighCard(['T', 4, 7, 'K', 2], [9, 4, 7, 'A', 2])).toStrictEqual([0, 1]) 
-// })
-
-// test('tieBreakerHighCard', () => {
-//     expect(tieBreakHighCard(['A', 4, 7, 'K', 2], [9, 4, 7, 'A', 2])).toStrictEqual([1, 0]) 
-// })
-
-// test('tieBreakerHighCard', () => {
-//     expect(tieBreakHighCard(['Q', 4, 7, 'K', 2], ['Q', 4, 7, 'A', 2])).toStrictEqual([0, 1]) 
-// })
-
-// test('tieBreakerHighCard', () => {
-//     expect(tieBreakHighCard(['Q', 4, 7, 8, 3], ['Q', 4, 7, 8, 2])).toStrictEqual([1, 0]) 
-// })
 
 test('tieBreak Two Pair', () => {
     expect(tieBreakTwoPair(['Q', 'Q', 7, 7, 3], ['Q', 'Q', 7, 7, 1])).toStrictEqual([1, 0]) 
@@ -853,12 +815,6 @@ test('tieBreak Two Pair', () => {
 test('tieBreak Two Pair', () => {
     expect(tieBreakTwoPair(['K', 'K', 'Q', 'Q', 3], ['A', 'A', 2, 2, 1])).toStrictEqual([0, 1]) 
 })
-
-
-
-
-
-
 
 
 test('tieBreaker Pair', () => {
