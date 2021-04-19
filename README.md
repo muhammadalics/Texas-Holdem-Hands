@@ -30,6 +30,9 @@ Enter the names and cards as follows:
 
 Hit CTRL+D to process the input and see results.
 
+![Run](https://github.com/muhammadalics/Texas-Holdem-Hands/blob/main/gifs/run.gif)
 
 ## Running the unit tests
     $ node holdem.test.js
+
+![Tests](https://github.com/muhammadalics/Texas-Holdem-Hands/blob/main/gifs/test.gif)
